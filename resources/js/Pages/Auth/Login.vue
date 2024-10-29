@@ -13,6 +13,7 @@ import BaseButtons from '@/Components/BaseButtons.vue'
 import FormValidationErrors from '@/Components/FormValidationErrors.vue'
 import NotificationBarInCard from '@/Components/NotificationBarInCard.vue'
 import BaseLevel from '@/Components/BaseLevel.vue'
+import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
   canResetPassword: Boolean,
@@ -25,19 +26,34 @@ const props = defineProps({
 const form = useForm({
   email: '',
   password: '',
-  remember: []
+  remember: [null]
 })
 
 const submit = () => {
   form
     .transform(data => ({
-      ... data,
+      ...data,
       remember: form.remember && form.remember.length ? 'on' : ''
     }))
     .post(route('login'), {
       onFinish: () => form.reset('password'),
-    })
+      onSuccess: (response) => {
+        console.log(response); // Lihat data yang dikembalikan
+        // Cek role pengguna
+        if (response.user.role === 'admin') {
+          // Redirect ke dashboard jika pengguna adalah admin
+          window.location.href = '/dashboard'; // Ganti dengan URL dashboard yang sesuai
+        } else if (response.user.role === 'user') {
+          // Redirect ke landing jika pengguna adalah user
+          window.location.href = '/landing'; // Pastikan rute landing benar
+        }
+      },
+    });
 }
+
+
+
+
 </script>
 
 <template>

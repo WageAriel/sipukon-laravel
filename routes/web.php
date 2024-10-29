@@ -1,10 +1,11 @@
 <?php
-
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use Inertia\Inertia;
 
+// Halaman utama
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -12,36 +13,55 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('welcome');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('HomeView');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Halaman login
+Route::get('/login', function () {
+    return Inertia::render('Auth/Login');
+})->name('login');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+// Proses login
+Route::post('/login', [AuthController::class, 'login']);
+
+// Halaman dashboard
+Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return Inertia::render('HomeView');
 })->name('dashboard');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/tables', function () {
-//     return Inertia::render('TablesView');
-// })->name('tables');
+Route::middleware(['auth', 'verified'])->get('/buku', function () {
+    return Inertia::render('BukuView');
+})->name('buku');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/forms', function () {
-//     return Inertia::render('FormsView');
-// })->name('forms');
+Route::middleware(['auth:sanctum', 'verified'])->get('/tables', function () {
+    return Inertia::render('TablesView');
+})->name('tables');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/ui', function () {
-//     return Inertia::render('UiView');
-// })->name('ui');
+Route::middleware(['auth:sanctum', 'verified'])->get('/forms', function () {
+    return Inertia::render('FormsView');
+})->name('forms');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/responsive', function () {
-//     return Inertia::render('ResponsiveView');
-// })->name('responsive');
+Route::middleware(['auth:sanctum', 'verified'])->get('/ui', function () {
+    return Inertia::render('UiView');
+})->name('ui');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/responsive', function () {
+    return Inertia::render('ResponsiveView');
+})->name('responsive');
+
+// Halaman landing
+Route::get('/landing', function () {
+    return Inertia::render('LandingPage');
+})->name('landing');
+
+// Profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Logout route
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+
+// Include auth routes
 require __DIR__.'/auth.php';

@@ -11,16 +11,32 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('prodi', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_prodi')->unique();
+            $table->timestamps();
+        });
+        
+        Schema::create('mahasiswa', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_mahasiswa')->index();
+            // Menambahkan kolom prodi_id sebagai foreign key
+            $table->foreignId('prodi_id')->constrained('prodi')->onUpdate('cascade');
+            $table->timestamps();
+        });
+        
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->nullable();
+            // Mengubah foreign key untuk menggunakan ID mahasiswa
+            $table->foreignId('mahasiswa_id')->nullable()->constrained('mahasiswa')->onUpdate('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
-
+        
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
@@ -42,8 +58,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('mahasiswa');
+        Schema::dropIfExists('prodi');
     }
 };

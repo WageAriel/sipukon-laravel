@@ -25,35 +25,35 @@ export default [
     label: 'Data Pengguna'
   },
   {
-    to: 'data-buku',
+    route: 'buku',
     icon: mdiMonitor,
-    label: 'Data Buku'
+    label: 'DataBuku'
   },
   // {
   //   to: 'Data Buku',
   //   icon: mdiMonitor,
   //   label: 'Dashboard'
   // },
-  // {
-  //   route: 'tables',
-  //   label: 'Tables',
-  //   icon: mdiTable
-  // },
-  // {
-  //   route: 'forms',
-  //   label: 'Forms',
-  //   icon: mdiSquareEditOutline
-  // },
-  // {
-  //   route: 'ui',
-  //   label: 'UI',
-  //   icon: mdiTelevisionGuide
-  // },
-  // {
-  //   route: 'responsive',
-  //   label: 'Responsive',
-  //   icon: mdiResponsive
-  // },
+  {
+    route: 'tables',
+    label: 'Tables',
+    icon: mdiTable
+  },
+  {
+    route: 'forms',
+    label: 'Forms',
+    icon: mdiSquareEditOutline
+  },
+  {
+    route: 'ui',
+    label: 'UI',
+    icon: mdiTelevisionGuide
+  },
+  {
+    route: 'responsive',
+    label: 'Responsive',
+    icon: mdiResponsive
+  },
   // {
   //   to: '/',
   //   label: 'Styles',
