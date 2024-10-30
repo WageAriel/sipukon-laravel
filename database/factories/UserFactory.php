@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -26,9 +27,11 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('password123'), // Ubah ke password yang diinginkan
+            'role' => 'user', // Set default role
+            'mahasiswa_id' => null, // Set sesuai kebutuhan
             'remember_token' => Str::random(10),
+            'is_active' => true, // Pastikan ada
         ];
     }
 
@@ -38,7 +41,7 @@ class UserFactory extends Factory
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+            'is_active' => false, // Jika ingin menandai sebagai tidak aktif
         ]);
     }
 }

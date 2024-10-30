@@ -23,6 +23,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "@heroicons/vue": "^2.1.5",
         "ziggy": "^2.4.0",
         "ziggy-js": "github:tightenco/ziggy"
     }

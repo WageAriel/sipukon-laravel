@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password123'), // Password yang di-hash
                 'role' => 'admin',
                 'mahasiswa_id' => 1, // Mengacu ke id mahasiswa
+                'is_active' => true,  // Mengatur akun sebagai aktif
             ],
             [
                 'name' => 'User1',
@@ -24,7 +25,9 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password123'),
                 'role' => 'user',
                 'mahasiswa_id' => 2,
+                'is_active' => true,  // Mengatur akun sebagai aktif
             ],
+            // Jika ada pengguna lain, bisa ditambahkan di sini
         ]);
     }
 }

@@ -38,18 +38,15 @@ const submit = () => {
     .post(route('login'), {
       onFinish: () => form.reset('password'),
       onSuccess: (response) => {
-        console.log(response); // Lihat data yang dikembalikan
-        // Cek role pengguna
-        if (response.user.role === 'admin') {
-          // Redirect ke dashboard jika pengguna adalah admin
-          window.location.href = '/dashboard'; // Ganti dengan URL dashboard yang sesuai
-        } else if (response.user.role === 'user') {
-          // Redirect ke landing jika pengguna adalah user
-          window.location.href = '/landing'; // Pastikan rute landing benar
+        // Gunakan URL redirect dari response
+        if (response.props.redirect) {
+          window.location.href = response.props.redirect;
         }
       },
     });
 }
+
+
 
 
 

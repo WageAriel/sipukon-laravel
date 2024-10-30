@@ -11,23 +11,34 @@ use Inertia\Inertia;
 class AuthController extends Controller
 {
     public function login(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
-
-    if (Auth::attempt($request->only('email', 'password'))) {
-        $user = Auth::user();
-
-        return response()->json([
-            'message' => 'Login successful',
-            'user' => $user // Mengembalikan informasi pengguna
+    {
+        $credentials = $request->only('email', 'password');
+    
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
+    
+        // Cek kredensial
+        if (Auth::attempt($credentials)) {
+            // Ambil user yang sedang login
+            $user = Auth::user();
+    
+            // Cek role pengguna dan atur redirect berdasarkan itu
+            if ($user->role === 'admin') {
+                return response()->json(['redirect' => route('dashboard')]);
+            } elseif ($user->role === 'user') {
+                return response()->json(['redirect' => route('landing')]);
+            }
+        }
+    
+        // Jika login gagal
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
+    
 
-    return response()->json(['message' => 'Invalid credentials'], 401);
-}
+    
 
 
 

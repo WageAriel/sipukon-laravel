@@ -10,8 +10,6 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
     ]);
 })->name('welcome');
 
@@ -25,6 +23,9 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Halaman dashboard
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
+    if (Auth::user()->role !== 'admin') {
+        return redirect()->route('landing')->with('error', 'Unauthorized access.');
+    }
     return Inertia::render('HomeView');
 })->name('dashboard');
 
@@ -49,7 +50,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/responsive', function () 
 })->name('responsive');
 
 // Halaman landing
-Route::get('/landing', function () {
+Route::middleware(['auth', 'verified'])->get('/landing', function () {
     return Inertia::render('LandingPage');
 })->name('landing');
 
