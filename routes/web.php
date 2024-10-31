@@ -29,6 +29,10 @@ Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return Inertia::render('HomeView');
 })->name('dashboard');
 
+Route::middleware(['auth', 'verified'])->get('/landing', function () {
+    return Inertia::render('LandingPage');
+})->name('landing');
+
 Route::middleware(['auth', 'verified'])->get('/buku', function () {
     return Inertia::render('BukuView');
 })->name('buku');
@@ -50,9 +54,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/responsive', function () 
 })->name('responsive');
 
 // Halaman landing
-Route::middleware(['auth', 'verified'])->get('/landing', function () {
-    return Inertia::render('LandingPage');
-})->name('landing');
 
 // Profile routes
 Route::middleware('auth')->group(function () {

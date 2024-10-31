@@ -22,10 +22,8 @@ class AuthController extends Controller
     
         // Cek kredensial
         if (Auth::attempt($credentials)) {
-            // Ambil user yang sedang login
             $user = Auth::user();
     
-            // Cek role pengguna dan atur redirect berdasarkan itu
             if ($user->role === 'admin') {
                 return response()->json(['redirect' => route('dashboard')]);
             } elseif ($user->role === 'user') {
@@ -33,7 +31,6 @@ class AuthController extends Controller
             }
         }
     
-        // Jika login gagal
         return response()->json(['error' => 'Unauthorized'], 401);
     }
     
@@ -65,7 +62,6 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        // Setelah berhasil, Anda bisa login otomatis atau mengarahkan ke halaman lain
         Auth::login($user);
 
         return redirect()->intended('/dashboard');
