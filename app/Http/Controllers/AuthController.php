@@ -21,15 +21,13 @@ class AuthController extends Controller
         ]);
     
         // Cek kredensial
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-    
-            if ($user->role === 'admin') {
-                return response()->json(['redirect' => route('dashboard')]);
-            } elseif ($user->role === 'user') {
-                return response()->json(['redirect' => route('landing')]);
-            }
-        }
+        $user = Auth::user();
+if ($user && $user->role === 'admin') {
+    return response()->json(['redirect' => route('dashboard')]);
+} elseif ($user && $user->role === 'user') {
+    return response()->json(['redirect' => route('landing')]);
+}
+
     
         return response()->json(['error' => 'Unauthorized'], 401);
     }

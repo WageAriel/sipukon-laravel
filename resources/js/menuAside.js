@@ -24,11 +24,11 @@ export default [
     icon: mdiMonitor,
     label: 'Data Pengguna'
   },
-  {
-    route: 'buku',
-    icon: mdiMonitor,
-    label: 'DataBuku'
-  },
+  // {
+  //   route: 'buku',
+  //   icon: mdiMonitor,
+  //   label: 'DataBuku'
+  // },
   // {
   //   to: 'Data Buku',
   //   icon: mdiMonitor,
@@ -37,6 +37,11 @@ export default [
   {
     route: 'tables',
     label: 'Tables',
+    icon: mdiTable
+  },
+  {
+    route: 'books',
+    label: 'Books',
     icon: mdiTable
   },
   {

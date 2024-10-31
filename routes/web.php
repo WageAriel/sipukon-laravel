@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 // Halaman utama
 Route::get('/', function () {
@@ -23,23 +24,26 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Halaman dashboard
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    if (Auth::user()->role !== 'admin') {
+    $user = Auth::user();
+    if ($user && $user->role !== 'admin') {
         return redirect()->route('landing')->with('error', 'Unauthorized access.');
     }
     return Inertia::render('HomeView');
 })->name('dashboard');
 
+
 Route::middleware(['auth', 'verified'])->get('/landing', function () {
     return Inertia::render('LandingPage');
 })->name('landing');
 
-Route::middleware(['auth', 'verified'])->get('/buku', function () {
-    return Inertia::render('BukuView');
-})->name('buku');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/tables', function () {
     return Inertia::render('TablesView');
 })->name('tables');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/books', function () {
+    return Inertia::render('BukuView');
+})->name('books');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/forms', function () {
     return Inertia::render('FormsView');
@@ -67,3 +71,5 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 // Include auth routes
 require __DIR__.'/auth.php';
+require __DIR__.'/BookRoute.php';
+

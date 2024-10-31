@@ -51,6 +51,16 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        //data buku
+        Schema::create('buku', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('author');
+            $table->text('description')->nullable();
+            $table->string('cover_image')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -63,5 +73,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('mahasiswa');
         Schema::dropIfExists('prodi');
+        Schema::dropIfExists('buku');
     }
 };
