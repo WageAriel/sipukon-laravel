@@ -1,5 +1,6 @@
 <template>
   <Head title="Landing" />
+  <HeaderNav/>
   <div class="landing-page">
     <h1>Welcome to the Landing Page</h1>
     <p>This is a simple landing page for users.</p>
@@ -23,6 +24,7 @@ import { ref, onBeforeMount } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import { ChevronRightIcon } from '@heroicons/vue/24/solid';
+import HeaderNav from '@/ComponentLanding/HeaderNav.vue'
 
 const logout = async () => {
   try {

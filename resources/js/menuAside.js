@@ -40,7 +40,7 @@ export default [
     icon: mdiTable
   },
   {
-    route: 'books',
+    route: 'buku',
     label: 'Books',
     icon: mdiTable
   },

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref , } from "vue";
 import { mdiDelete, mdiPencil } from "@mdi/js";
 import CardBox from "@/Components/CardBox.vue";
 import BaseButton from "@/Components/BaseButton.vue";
@@ -7,6 +7,8 @@ import { useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 import EditBookModal from "@/Components/Buku/EditModal.vue";
 
+
+// Lainnya: kode props, form, dll
 const props = defineProps({
     data: {
         type: Array,

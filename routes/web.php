@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
 // Halaman utama
-Route::get('/', function () {
+Route::get('/landing', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -32,7 +32,7 @@ Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 
-Route::middleware(['auth', 'verified'])->get('/landing', function () {
+Route::middleware([])->get('/landing', function () {
     return Inertia::render('LandingPage');
 })->name('landing');
 
