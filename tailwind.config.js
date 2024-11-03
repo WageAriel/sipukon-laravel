@@ -17,6 +17,9 @@ module.exports = {
       gray: "gray",
     },
     extend: {
+      fontFamily: {
+        sans: ['Lato', 'sans-serif'], // Menjadikan Lato sebagai font default
+      },
       zIndex: {
         "-1": "-1",
       },
