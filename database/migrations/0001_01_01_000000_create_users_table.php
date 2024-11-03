@@ -61,6 +61,8 @@ return new class extends Migration
             $table->string('cover_image')->nullable();
             $table->timestamps();
         });
+
+        
     }
 
     /**

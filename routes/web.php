@@ -57,6 +57,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/responsive', function () 
     return Inertia::render('ResponsiveView');
 })->name('responsive');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/user', function () {
+    return Inertia::render('ResponsiveView');
+})->name('responsive');
+
 // Halaman landing
 
 // Profile routes
