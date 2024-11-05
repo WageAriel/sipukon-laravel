@@ -16,13 +16,13 @@ import {
 export default [
   {
     route: 'dashboard',
-    icon: mdiMonitor,
-    label: 'Dashboard'
+    label: 'Dashboard',
+    icon: mdiMonitor
   },
   {
-    to: '/data-pengguna',
-    icon: mdiMonitor,
-    label: 'Data Pengguna'
+    to: 'users',
+    label: 'Users',
+    icon: mdiMonitor
   },
   // {
   //   route: 'buku',

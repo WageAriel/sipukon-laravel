@@ -15,13 +15,14 @@ const props = defineProps({
 const emit = defineEmits(["close"]);
 
 const form = useForm({
-    _method: "PUT", // Add this line to force PUT method
+    _method: "PUT",
     title: "",
     author: "",
     description: "",
     cover_image: null,
 });
 
+// Watch untuk update data form berdasarkan props.item
 watch(
     () => props.item,
     (newItem) => {
@@ -29,7 +30,7 @@ watch(
             form.title = newItem.title || "";
             form.author = newItem.author || "";
             form.description = newItem.description || "";
-            form.cover_image = null; // Reset file input
+            form.cover_image = null; // Reset file input setiap kali item berubah
         }
     },
     { immediate: true }
@@ -51,68 +52,55 @@ const submit = () => {
 </script>
 
 <template>
-    <div class="fixed z-10 inset-0 overflow-y-auto" v-if="show">
-        <div
-            class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-        >
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div class="absolute inset-0"></div>
-            </div>
-            <span
-                class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                aria-hidden="true"
-                >​</span
-            >
-            <div
-                class="inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-            >
-                <CardBox>
-                    <div class="sm:items-start">
-                        <div
-                            class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
-                        >
-                            <h3 class="text-lg leading-6 font-medium">
-                                Edit Book
-                            </h3>
-                            <div class="mt-2">
-                                <FormField label="Title">
-                                    <FormControl v-model="form.title" name="title" />
-                                </FormField>
-                                <FormField label="Author">
-                                    <FormControl v-model="form.author" name="author" />
-                                </FormField>
-                                <FormField label="Description">
-                                    <FormControl v-model="form.description" name="description" textarea />
-                                </FormField>
-                                <FormField label="Cover Image (image max 10 MB)">
-                                    <FormFilePicker
-                                        v-model="form.cover_image"
-                                        label="Upload"
-                                        name="cover_image"
-                                    />
-                                </FormField>
-                            </div>
-                        </div>
+    <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4 p-6 relative">
+            <CardBox>
+                <div class="sm:items-start">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 text-center">Edit Book</h3>
+                    <div class="mt-4">
+                        <FormField label="Title">
+                            <FormControl v-model="form.title" name="title" />
+                        </FormField>
+                        <FormField label="Author">
+                            <FormControl v-model="form.author" name="author" />
+                        </FormField>
+                        <FormField label="Description">
+                            <FormControl v-model="form.description" name="description" textarea />
+                        </FormField>
+                        <FormField label="Cover Image (image max 10 MB)">
+                            <FormFilePicker
+                                v-model="form.cover_image"
+                                label="Upload"
+                                name="cover_image"
+                            />
+                        </FormField>
                     </div>
+                </div>
 
-                    <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <BaseButton
-                            type="button"
-                            color="info"
-                            label="Save"
-                            @click="submit"
-                        />
-                        <BaseButton
-                            class="mx-4"
-                            type="button"
-                            color="warning"
-                            label="Cancel"
-                            @click="$emit('close')"
-                            outline
-                        />
-                    </div>
-                </CardBox>
-            </div>
+                <div class="flex justify-end mt-6">
+                    <BaseButton
+                        type="button"
+                        color="info"
+                        label="Save"
+                        @click="submit"
+                    />
+                    <BaseButton
+                        class="mx-4"
+                        type="button"
+                        color="warning"
+                        label="Cancel"
+                        @click="$emit('close')"
+                        outline
+                    />
+                </div>
+            </CardBox>
         </div>
     </div>
 </template>
+
+<style scoped>
+/* Pengaturan untuk modal agar tetap berada di atas semua elemen */
+.z-50 {
+    z-index: 50;
+}
+</style>

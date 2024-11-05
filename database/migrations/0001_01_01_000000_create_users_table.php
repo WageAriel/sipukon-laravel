@@ -25,12 +25,13 @@ return new class extends Migration
             $table->timestamps();
         });
         
+       
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role')->nullable();
+            $table->string('role')->default('user');
             // Mengubah foreign key untuk menggunakan ID mahasiswa
             $table->foreignId('mahasiswa_id')->nullable()->constrained('mahasiswa')->onUpdate('cascade');
             $table->rememberToken();

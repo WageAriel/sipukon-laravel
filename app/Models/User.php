@@ -20,7 +20,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role',      // Tambahkan ini
-        'mahasiswa_id', // Tambahkan ini
     ];
 
     /**
@@ -42,14 +41,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    /**
-     * Define a relationship to Mahasiswa model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function mahasiswa()
-    {
-        return $this->belongsTo(Mahasiswa::class);
-    }
 }
