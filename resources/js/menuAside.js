@@ -20,7 +20,7 @@ export default [
     icon: mdiMonitor
   },
   {
-    to: 'users',
+    route: 'user',
     label: 'Users',
     icon: mdiMonitor
   },

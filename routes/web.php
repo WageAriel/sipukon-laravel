@@ -30,6 +30,13 @@ Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     }
     return Inertia::render('HomeView');
 })->name('dashboard');
+Route::middleware(['auth', 'verified'])->get('/dashboard/user', function () {
+    $user = Auth::user();
+    if ($user && $user->role !== 'admin') {
+        return redirect()->route('landing')->with('error', 'Unauthorized access.');
+    }
+    return Inertia::render('UserView');
+})->name('user');
 
 Route::get('/home', function () {
     return Inertia::render('HomeView'); // Replace 'HomeView' with the actual Vue component
