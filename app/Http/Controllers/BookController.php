@@ -52,8 +52,10 @@ class BookController extends Controller
         }
     }
 
-    public function update(Request $request, Book $id)
+    public function update(Request $request, $id)
     {
+        $book = Book::findOrFail($id); // Mengambil model Book berdasarkan ID
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
@@ -73,7 +75,7 @@ class BookController extends Controller
             $dataToUpdate['cover_image'] = $fileName;
         }
 
-        $id->update($dataToUpdate);
+        $book->update($dataToUpdate); // Update data buku
 
         return redirect()->route('buku');
     }

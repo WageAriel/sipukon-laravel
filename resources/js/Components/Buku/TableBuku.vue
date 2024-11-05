@@ -1,5 +1,5 @@
 <script setup>
-import { ref , } from "vue";
+import { ref, nextTick } from "vue";
 import { mdiDelete, mdiPencil } from "@mdi/js";
 import CardBox from "@/Components/CardBox.vue";
 import BaseButton from "@/Components/BaseButton.vue";
@@ -7,8 +7,6 @@ import { useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 import EditBookModal from "@/Components/Buku/EditModal.vue";
 
-
-// Lainnya: kode props, form, dll
 const props = defineProps({
     data: {
         type: Array,
@@ -31,25 +29,32 @@ const confirmDelete = async (id) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
         cancelButtonText: "Cancel",
+        zIndex: 9999, // Menambahkan z-index
     });
 
     if (result.isConfirmed) {
         form.delete(route("buku.destroy", id), {
             preserveState: true,
             preserveScroll: true,
-            onSuccess: () => {
-                Swal.fire(
-                    "Deleted!",
-                    "The item has been deleted successfully.",
-                    "success"
-                );
+            onSuccess: async () => {
+                await nextTick();
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "The item has been deleted successfully.",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    zIndex: 9999, // Menambahkan z-index
+                });
             },
-            onError: (errors) => {
-                Swal.fire(
-                    "Error!",
-                    "There was a problem deleting the item.",
-                    "error"
-                );
+            onError: async (errors) => {
+                await nextTick();
+                Swal.fire({
+                    title: "Error!",
+                    text: "There was a problem deleting the item.",
+                    icon: "error",
+                    confirmButtonColor: "#3085d6",
+                    zIndex: 9999, // Menambahkan z-index
+                });
                 console.log(errors);
             },
         });
@@ -96,6 +101,18 @@ const closeEditModal = () => {
             </tbody>
         </table>
 
+        <!-- Modal Edit Buku -->
         <EditBookModal v-if="showEditModal" :item="selectedItem" :show="showEditModal" @close="closeEditModal" />
     </CardBox>
 </template>
+
+<style scoped>
+/* Override styling untuk memastikan SweetAlert di tengah layar */
+.swal2-container {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 9999 !important;
+}
+</style>

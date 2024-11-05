@@ -41,6 +41,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/tables', function () {
     return Inertia::render('TablesView');
 })->name('tables');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/users', function () {
+    return Inertia::render('UserView');
+})->name('users');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/books', function () {
     return Inertia::render('BukuView');
 })->name('books');
@@ -76,4 +80,5 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 // Include auth routes
 require __DIR__.'/auth.php';
 require __DIR__.'/BookRoute.php';
+require __DIR__.'/UserRoute.php';
 
