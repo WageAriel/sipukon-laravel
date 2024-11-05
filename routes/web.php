@@ -31,6 +31,21 @@ Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return Inertia::render('HomeView');
 })->name('dashboard');
 
+Route::get('/home', function () {
+    return Inertia::render('HomeView'); // Replace 'HomeView' with the actual Vue component
+})->name('home');
+
+Route::get('/library', function () {
+    return Inertia::render('LibraryPage'); // Replace 'LibraryView' with the actual Vue component
+})->name('library');
+
+Route::get('/lending', function () {
+    return Inertia::render('FormPeminjaman'); // Replace 'LendingView' with the actual Vue component
+})->name('lending');
+
+Route::get('/about', function () {
+    return Inertia::render('AboutPage'); // Replace 'AboutView' with the actual Vue component
+})->name('about');
 
 Route::middleware([])->get('/', function () {
     return Inertia::render('LandingPage');

@@ -12,10 +12,10 @@
 
     <!-- Desktop Navigation Links -->
     <nav class="hidden md:flex gap-10 items-center text-base font-medium capitalize text-neutral-900">
-      <a href="#home" class="self-stretch my-auto">HOME</a>
-      <a href="#library" class="self-stretch my-auto">LIBRARY</a>
-      <a href="#lending" class="self-stretch my-auto">LENDING</a>
-      <a href="#about" class="self-stretch my-auto">ABOUT</a>
+      <Link href="/" class="self-stretch my-auto">HOME</Link>
+      <Link href="/library" class="self-stretch my-auto">LIBRARY</Link>
+      <Link href="/lending" class="self-stretch my-auto">LENDING</Link>
+      <Link href="/about" class="self-stretch my-auto">ABOUT</Link>
     </nav>
 
     <!-- User Avatar and Login/Logout Buttons -->
@@ -65,10 +65,10 @@
         </button>
       </div>
       <nav class="flex flex-col gap-4 px-8 text-base font-medium capitalize text-neutral-900">
-        <a href="#home" @click="toggleSidebar" class="py-2">HOME</a>
-        <a href="#library" @click="toggleSidebar" class="py-2">LIBRARY</a>
-        <a href="#lending" @click="toggleSidebar" class="py-2">LENDING</a>
-        <a href="#about" @click="toggleSidebar" class="py-2">ABOUT</a>
+        <Link href="/" @click="toggleSidebar" class="py-2">HOME</Link>
+        <Link href="/library" @click="toggleSidebar" class="py-2">LIBRARY</Link>
+        <Link href="/lending" @click="toggleSidebar" class="py-2">LENDING</Link>
+        <Link href="/about" @click="toggleSidebar" class="py-2">ABOUT</Link>
       </nav>
       <div class="flex flex-col items-center gap-4 mt-4 px-8">
         <img
