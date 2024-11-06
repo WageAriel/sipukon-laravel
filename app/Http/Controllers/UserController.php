@@ -21,7 +21,9 @@ class UserController extends Controller
     {
         $users = User::all();
         return Inertia::render('UserView', ['data' => $users]);
+        // return Inertia::render('registerView');
     }
+   
 
     public function store(Request $request)
 {
@@ -30,6 +32,8 @@ class UserController extends Controller
         'email' => 'nullable|string|email|max:255|unique:users,email',
         'password' => 'required|string|min:8',
         'role' => 'required|string|max:50',
+        'nama' => 'nullable|string|max:255',
+        
     ]);
 
     // If validation passes, create the user
@@ -37,7 +41,8 @@ class UserController extends Controller
         'name' => $validated['name'],
         'email' => $validated['email'],
         'password' => bcrypt($validated['password']),
-        'role' => $validated['role']
+        'role' =>  'user',
+        'nama' => $validated['nama'],
     ]);
 
     return redirect()->route('user'); // Redirects if successful

@@ -116,8 +116,14 @@ export default {
     }
 
     const logout = () => {
-      Inertia.post(route('logout'))
-    }
+    auth.user = null; // Kosongkan auth.user secara lokal
+    Inertia.post(route('logout'), {
+        onSuccess: () => {
+            Inertia.reload({ only: ['auth'] }); // Pastikan auth terbaru
+        }
+    });
+};
+
 
     return {
       auth,

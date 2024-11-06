@@ -3,6 +3,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegisterController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,14 @@ use Illuminate\Support\Facades\Auth;
 //     ]);
 // })->name('welcome');
 
+
 // Halaman login
+
+Route::get('/sign-up', [RegisterController::class, 'showRegisterForm'])->name('register');
+Route::post('/sign-up', [RegisterController::class, 'store'])->name('register.store');
+
+
+
 Route::get('/login', function () {
     return Inertia::render('Auth/Login');
 })->name('login');

@@ -105,7 +105,7 @@ const handleEnterKey = (event) => {
 
               <div class="absolute top-[372.23px] left-0 w-[372.23px] h-[27.03px] text-center">
                 <span class="text-[#838282] text-xs font-normal font-['Poppins']">Belum punya akun? </span>
-                <a href="/register" class="text-[#00afef] text-xs font-normal font-['Poppins']">Buat akun</a>
+                <a href="/sign-up" class="text-[#00afef] text-xs font-normal font-['Poppins']">Buat akun</a>
               </div>
 
               <!-- Tombol SSO -->

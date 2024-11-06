@@ -17,15 +17,16 @@ return new class extends Migration
             $table->timestamps();
         });
         
-        Schema::create('mahasiswa', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_mahasiswa')->index();
-            // Menambahkan kolom prodi_id sebagai foreign key
-            $table->foreignId('prodi_id')->constrained('prodi')->onUpdate('cascade');
-            $table->timestamps();
-        });
+        // Schema::create('mahasiswa', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('mahasiswa_id')->index();
+        //     $table->string('nama_mahasiswa'); // Tambahkan kolom nama_mahasiswa
+        //     // Menambahkan kolom prodi_id sebagai foreign key
+        //     $table->foreignId('prodi_id')->constrained('prodi')->onUpdate('cascade');
+        //     $table->timestamps();
+        // });
         
-       
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -33,7 +34,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('role')->default('user');
             // Mengubah foreign key untuk menggunakan ID mahasiswa
-            $table->foreignId('mahasiswa_id')->nullable()->constrained('mahasiswa')->onUpdate('cascade');
+            $table->string('nama')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
