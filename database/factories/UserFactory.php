@@ -23,17 +23,18 @@ class UserFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password123'), // Ubah ke password yang diinginkan
-            'role' => 'user', // Set default role
-            'mahasiswa_id' => null, // Set sesuai kebutuhan
-            'remember_token' => Str::random(10),
-            'is_active' => true, // Pastikan ada
-        ];
-    }
+{
+    return [
+        'name' => fake()->name(),
+        'email' => fake()->unique()->safeEmail(),
+        'password' => Hash::make('password123'), // Pastikan password ini sesuai
+        'role' => 'user', // Set default role
+        'nama' => fake()->name(), // Menambahkan kolom nama
+        'remember_token' => Str::random(10),
+        'is_active' => true, // Pastikan ada
+    ];
+}
+
 
     /**
      * Indicate that the model's email address should be unverified.

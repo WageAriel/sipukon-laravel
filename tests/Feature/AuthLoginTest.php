@@ -22,7 +22,7 @@ class AuthLoginTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/landing');
+        $response = $this->get('/');
 
         $response->assertStatus(200);
         $response->assertSee('LandingPage');

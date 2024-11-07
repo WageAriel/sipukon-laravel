@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PasswordChangeController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,8 +19,23 @@ use Illuminate\Support\Facades\Auth;
 
 // Halaman login
 
+
+
+
+
 Route::get('/sign-up', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('/sign-up', [RegisterController::class, 'store'])->name('register.store');
+
+// Menampilkan formulir ubah password
+Route::get('/change-password', [PasswordChangeController::class, 'showChangePasswordForm'])
+->middleware('auth')
+->name('password.change');
+
+Route::post('/change-password', [PasswordChangeController::class, 'updatePassword'])
+    ->middleware('auth')
+    ->name('password.update');
+// Mengupdate password
+// Rute untuk memperbarui password
 
 
 

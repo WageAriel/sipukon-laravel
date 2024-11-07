@@ -33,7 +33,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role')->default('user');
-            // Mengubah foreign key untuk menggunakan ID mahasiswa
             $table->string('nama')->nullable();
             $table->rememberToken();
             $table->timestamps();

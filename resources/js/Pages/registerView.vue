@@ -83,6 +83,12 @@ const reset = () => {
                 {{ errors.name }}
             </p>
         </FormField>
+        <FormField label="Nama">
+            <FormControl v-model="form.nama" id="nama" :icon="mdiCardAccountDetails" />
+            <p v-if="errors.nama" class="text-red-500 text-sm mt-0">
+                {{ errors.nama }}
+            </p>
+        </FormField>
 
         <FormField label="Email">
             <FormControl v-model="form.email" id="email" :icon="mdiMail" autocomplete="email" type="email" />
@@ -104,12 +110,7 @@ const reset = () => {
     </p>
 </FormField>
         <!-- Mengubah dari Role ke Nama -->
-        <FormField label="Nama">
-            <FormControl v-model="form.nama" id="nama" :icon="mdiCardAccountDetails" />
-            <p v-if="errors.nama" class="text-red-500 text-sm mt-0">
-                {{ errors.nama }}
-            </p>
-        </FormField>
+        
 
         <!-- <FormField label="Role">
             <select v-model="form.role" class="form-select">

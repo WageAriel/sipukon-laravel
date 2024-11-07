@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
+    public function showProfile()
+{
+    return Inertia::render('profileView', [
+        'auth' => [
+            'user' => Auth::user() // Mengambil data pengguna yang sedang login
+        ]
+    ]);
+}
     public function showRegisterForm()
     {
         return Inertia::render('registerView'); // Mengarahkan ke registerView.vue

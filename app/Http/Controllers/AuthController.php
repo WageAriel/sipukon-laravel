@@ -10,27 +10,57 @@ use Inertia\Inertia;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+//     public function login(Request $request)
+//     {
+//         $credentials = $request->only('email', 'password');
     
-        // Validasi input
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+//         // Validasi input
+//         $request->validate([
+//             'email' => 'required|email',
+//             'password' => 'required',
+//         ]);
     
-        // Cek kredensial
-        $user = Auth::user();
-if ($user && $user->role === 'admin') {
-    return response()->json(['redirect' => route('dashboard')]);
-} elseif ($user && $user->role === 'user') {
-    return response()->json(['redirect' => route('landing')]);
-}
+//         // Cek kredensial
+//         $user = Auth::user();
+// if ($user && $user->role === 'admin') {
+//     return response()->json(['redirect' => route('dashboard')]);
+// } elseif ($user && $user->role === 'user') {
+//     return response()->json(['redirect' => route('landing')]);
+// }
 
     
-        return response()->json(['error' => 'Unauthorized'], 401);
+//         return response()->json(['error' => 'Unauthorized'], 401);
+//     }
+
+public function login(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    // Mengambil kredensial dari permintaan
+    $credentials = $request->only('email', 'password');
+
+    // Cek kredensial dan lakukan login
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user(); // Ambil pengguna yang sedang login
+
+        // Arahkan berdasarkan role pengguna
+        if ($user->role === 'admin') {
+            return redirect()->route('dashboard'); // Ganti dengan route dashboard yang sesuai
+        } elseif ($user->role === 'user') {
+            return redirect()->route('landing'); // Ganti dengan route landing yang sesuai
+        }
     }
+
+    // Jika login gagal
+    return back()->withErrors([
+        'email' => 'Email atau password salah.',
+    ]);
+}
+
     
 
     

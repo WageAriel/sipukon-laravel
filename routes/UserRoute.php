@@ -12,6 +12,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/user/json', [UserController::class, 'getAllUsers'])->name('user.json');
 });
 
+Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+// routes/web.php
+Route::get('/profile', [UserController::class, 'showProfile'])->middleware('auth')->name('profile.show');
+
 
 
 
