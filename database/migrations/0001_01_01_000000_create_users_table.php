@@ -59,12 +59,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author');
-            $table->text('description')->nullable();
+            $table->string('isbn')->nullable(); // Tambahkan kolom ISBN
+            $table->string('publisher')->nullable(); // Tambahkan kolom Publisher
+            $table->year('tahun')->nullable(); // Tambahkan kolom Tahun
             $table->string('cover_image')->nullable();
             $table->timestamps();
         });
-
-        
     }
 
     /**

@@ -17,12 +17,27 @@
             </p>
         </FormField>
 
-        <FormField label="Description">
-            <FormControl v-model="form.description" name="description" textarea />
-            <p v-if="errors.description" class="text-red-500 text-sm mt-1">
-                {{ errors.description }}
-            </p>
-        </FormField>
+        <FormField label="ISBN">
+    <FormControl v-model="form.isbn" name="isbn" />
+    <p v-if="errors.isbn" class="text-red-500 text-sm mt-1">
+        {{ errors.isbn }}
+    </p>
+</FormField>
+
+<FormField label="Publisher">
+    <FormControl v-model="form.publisher" name="publisher" />
+    <p v-if="errors.publisher" class="text-red-500 text-sm mt-1">
+        {{ errors.publisher }}
+    </p>
+</FormField>
+
+<FormField label="Tahun">
+    <FormControl v-model="form.tahun" name="tahun" type="number" />
+    <p v-if="errors.tahun" class="text-red-500 text-sm mt-1">
+        {{ errors.tahun }}
+    </p>
+</FormField>
+
 
         <FormField label="Cover Image (image max 10 MB)">
             <MultipleFormFilePicker
@@ -66,7 +81,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import CardBox from "@/Components/CardBox.vue";
 import FormField from "@/Components/FormField.vue";
@@ -79,7 +94,9 @@ import MultipleFormFilePicker from "@/Components/MultipleFormFilePicker.vue";
 const form = useForm({
     title: "",
     author: "",
-    description: "",
+    isbn: "",         // Tambahkan field ISBN
+    publisher: "",    // Tambahkan field Publisher
+    tahun: "",        // Tambahkan field Tahun
     cover_image: null,
 });
 
@@ -94,6 +111,15 @@ const validateForm = () => {
     if (!form.author) {
         errors.value.author = "Author harus diisi";
     }
+    if (!form.isbn) {
+        errors.value.isbn = "ISBN harus diisi"; // Validasi untuk ISBN
+    }
+    if (!form.publisher) {
+        errors.value.publisher = "Publisher harus diisi"; // Validasi untuk Publisher
+    }
+    if (!form.tahun) {
+        errors.value.tahun = "Tahun harus diisi"; // Validasi untuk Tahun
+    }
     if (!form.cover_image) {
         errors.value.cover_image = "Cover image harus diisi";
     }
@@ -107,7 +133,9 @@ const submit = () => {
         const formData = new FormData();
         formData.append("title", form.title);
         formData.append("author", form.author);
-        formData.append("description", form.description);
+        formData.append("isbn", form.isbn); // Tambahkan ISBN ke formData
+        formData.append("publisher", form.publisher); // Tambahkan Publisher ke formData
+        formData.append("tahun", form.tahun); // Tambahkan Tahun ke formData
         if (form.cover_image) {
             formData.append("cover_image", form.cover_image);
         }
@@ -132,3 +160,4 @@ const reset = () => {
     showAlert.value = false;
 };
 </script>
+

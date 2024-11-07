@@ -7,6 +7,7 @@ import FormField from "@/Components/FormField.vue";
 import FormControl from "@/Components/FormControl.vue";
 import BaseButton from "@/Components/BaseButton.vue";
 import BaseButtons from "@/Components/BaseButtons.vue";
+import BaseDivider from "@/Components/BaseDivider.vue";
 
 const selectOptions = [
     { label: "Admin", value: "admin" },
@@ -45,7 +46,7 @@ const validateForm = () => {
 const submit = () => {
     if (validateForm()) {
         showAlert.value = false;
-        form.post(route("user.store"), {  // Ensure this matches Route::post('/dashboard/user')
+        form.post(route("user.store"), {
             onSuccess: () => {
                 reset();
             },
@@ -58,7 +59,6 @@ const submit = () => {
     }
 };
 
-
 const reset = () => {
     form.reset();
     errors.value = {};
@@ -68,25 +68,31 @@ const reset = () => {
 
 <template>
     <CardBox form @submit.prevent="submit">
-        <FormField label="Username">
-            <FormControl v-model="form.name" id="name" :icon="mdiAccount" />
-            <p v-if="errors.name" class="text-red-500 text-sm mt-0">
-                {{ errors.name }}
-            </p>
-        </FormField>
+        <h1 class="text-xl font-bold">User Form</h1>
+        <BaseDivider />
 
+        <FormField label="Username">
+            <FormControl v-model="form.name" id="name" :icon="mdiAccount" placeholder="Enter username">
+              <p v-if="errors.name" class="text-red-500 text-sm mt-1">
+                  {{ errors.name }}
+              </p>
+            </FormControl>
+        </FormField>
+        
         <FormField label="Email">
-            <FormControl v-model="form.email" id="email" :icon="mdiMail" autocomplete="email" type="email" />
-            <p v-if="errors.email" class="text-red-500 text-sm mt-0">
-                {{ errors.email }}
-            </p>
+            <FormControl v-model="form.email" id="email" :icon="mdiMail" placeholder="Enter email">
+              <p v-if="errors.email" class="text-red-500 text-sm mt-1">
+                  {{ errors.email }}
+              </p>
+            </FormControl>
         </FormField>
 
         <FormField label="Password">
-            <FormControl v-model="form.password" id="password" :icon="mdiLock" type="password" autocomplete="new-password" />
+            <FormControl v-model="form.password" id="password" :icon="mdiLock" type="password" autocomplete="new-password" placeholder="Password">
             <p v-if="errors.password" class="text-red-500 text-sm mt-0">
                 {{ errors.password }}
             </p>
+            </FormControl>
         </FormField>
 
         <FormField label="Role">
@@ -100,8 +106,6 @@ const reset = () => {
                 {{ errors.role }}
             </p>
         </FormField>
-
-
 
         <template #footer>
             <BaseButtons>

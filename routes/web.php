@@ -111,4 +111,5 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 require __DIR__.'/auth.php';
 require __DIR__.'/BookRoute.php';
 require __DIR__.'/UserRoute.php';
+require __DIR__.'/ProdiRoute.php';
 

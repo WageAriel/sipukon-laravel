@@ -10,6 +10,8 @@ import {
   mdiTelevisionGuide,
   mdiResponsive,
   mdiPalette,
+  mdiBookOpenPageVariant,
+  mdiSchool,
   mdiReact
 } from '@mdi/js'
 
@@ -22,7 +24,7 @@ export default [
   {
     route: 'user',
     label: 'Users',
-    icon: mdiMonitor
+    icon: mdiAccountCircle
   },
   // {
   //   route: 'buku',
@@ -35,13 +37,18 @@ export default [
   //   label: 'Dashboard'
   // },
   {
-    route: 'tables',
-    label: 'Tables',
-    icon: mdiTable
-  },
-  {
     route: 'buku',
     label: 'Books',
+    icon: mdiBookOpenPageVariant
+  },
+  {
+    route: 'prodi',
+    label: 'Prodi',
+    icon: mdiSchool
+  },
+  {
+    route: 'tables',
+    label: 'Tables',
     icon: mdiTable
   },
   {

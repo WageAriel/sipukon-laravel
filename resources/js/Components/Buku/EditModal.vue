@@ -18,7 +18,9 @@ const form = useForm({
     _method: "PUT",
     title: "",
     author: "",
-    description: "",
+    isbn: "",         // Tambahkan field ISBN
+    publisher: "",    // Tambahkan field Publisher
+    tahun: "",        // Tambahkan field Tahun
     cover_image: null,
 });
 
@@ -29,7 +31,9 @@ watch(
         if (newItem) {
             form.title = newItem.title || "";
             form.author = newItem.author || "";
-            form.description = newItem.description || "";
+            form.isbn = newItem.isbn || "";         // Update ISBN
+            form.publisher = newItem.publisher || ""; // Update Publisher
+            form.tahun = newItem.tahun || "";        // Update Tahun
             form.cover_image = null; // Reset file input setiap kali item berubah
         }
     },
@@ -64,8 +68,14 @@ const submit = () => {
                         <FormField label="Author">
                             <FormControl v-model="form.author" name="author" />
                         </FormField>
-                        <FormField label="Description">
-                            <FormControl v-model="form.description" name="description" textarea />
+                        <FormField label="ISBN">
+                            <FormControl v-model="form.isbn" name="isbn" />
+                        </FormField>
+                        <FormField label="Publisher">
+                            <FormControl v-model="form.publisher" name="publisher" />
+                        </FormField>
+                        <FormField label="Tahun">
+                            <FormControl v-model="form.tahun" name="tahun" type="number" />
                         </FormField>
                         <FormField label="Cover Image (image max 10 MB)">
                             <FormFilePicker

@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { mdiBallotOutline, mdiAccount, mdiBookOpenPageVariant, mdiText } from '@mdi/js'
+import { mdiAccount, mdiBookOpenPageVariant, mdiStar, mdiBarcode, mdiPublish} from '@mdi/js'
 import SectionMain from '@/components/SectionMain.vue'
 import { useForm } from "@inertiajs/vue3";
 import CardBox from '@/components/CardBox.vue'
@@ -18,7 +18,9 @@ import Swal from "sweetalert2";
 const form = useForm({
     title: "",
     author: "",
-    description: "",
+    isbn: "",         // Tambahkan field ISBN
+    publisher: "",    // Tambahkan field Publisher
+    tahun: "",        // Tambahkan field Tahun
     cover_image: null,
 });
 
@@ -33,6 +35,15 @@ const validateForm = () => {
     if (!form.author) {
         errors.value.author = "Author harus diisi";
     }
+    if (!form.isbn) {
+        errors.value.isbn = "ISBN harus diisi"; // Validasi untuk ISBN
+    }
+    if (!form.publisher) {
+        errors.value.publisher = "Publisher harus diisi"; // Validasi untuk Publisher
+    }
+    if (!form.tahun) {
+        errors.value.tahun = "Tahun harus diisi"; // Validasi untuk Tahun
+    }
     if (!form.cover_image) {
         errors.value.cover_image = "Cover image harus diisi";
     }
@@ -40,13 +51,15 @@ const validateForm = () => {
 };
 
 const submit = () => {
-  if (validateForm()) {
+    if (validateForm()) {
         showAlert.value = false;
 
         const formData = new FormData();
         formData.append("title", form.title);
         formData.append("author", form.author);
-        formData.append("description", form.description);
+        formData.append("isbn", form.isbn); // Tambahkan ISBN ke formData
+        formData.append("publisher", form.publisher); // Tambahkan Publisher ke formData
+        formData.append("tahun", form.tahun); // Tambahkan Tahun ke formData
         if (form.cover_image) {
             formData.append("cover_image", form.cover_image);
         }
@@ -95,13 +108,34 @@ defineProps({
           <FormControl v-model="form.author" :icon="mdiAccount" placeholder="Enter author name" />
         </FormField>
 
-        <FormField label="Description" help="Brief description of the book">
-          <FormControl v-model="form.description" :icon="mdiText" type="textarea" placeholder="Book description" />
+        <FormField label="ISBN">
+            <FormControl v-model="form.isbn" placeholder="Enter ISBN">
+              <p v-if="errors.isbn" class="text-red-500 text-sm mt-1">
+                  {{ errors.isbn }}
+              </p>
+            </FormControl>
+        </FormField>
+
+        <FormField label="Publisher">
+            <FormControl v-model="form.publisher" placeholder="Enter publisher name">
+              <p v-if="errors.publisher" class="text-red-500 text-sm mt-1">
+                  {{ errors.publisher }}
+              </p>
+            </FormControl>
+        </FormField>
+
+        <FormField label="Tahun">
+            <FormControl v-model="form.tahun" placeholder="Enter years">
+              <p v-if="errors.tahun" class="text-red-500 text-sm mt-1">
+                  {{ errors.tahun }}
+              </p>
+            </FormControl>
         </FormField>
 
         <FormField label="Cover Image (image max 10 MB)">
           <FormFilePicker v-model="form.cover_image" label="Upload" name="cover_image" />
         </FormField>
+        
 
         <template #footer>
           <BaseButtons>

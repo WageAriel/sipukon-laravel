@@ -12,17 +12,20 @@ class BookSeeder extends Seeder
         Book::create([
             'title' => 'Belajar Laravel',
             'author' => 'John Doe',
-            'description' => 'Buku panduan lengkap untuk belajar Laravel dari dasar hingga mahir.',
+            'isbn' => '978-3-16-148410-0',
+            'publisher' => 'Publisher XYZ',
+            'tahun' => 2021,
             'cover_image' => null,
         ]);
 
         Book::create([
             'title' => 'Pemrograman PHP',
             'author' => 'Jane Smith',
-            'description' => 'Memahami konsep pemrograman PHP dengan contoh nyata.',
+            'isbn' => '978-1-23-456789-7',
+            'publisher' => 'Publisher ABC',
+            'tahun' => 2020,
             'cover_image' => null,
         ]);
-
-        // Tambahkan data lainnya sesuai kebutuhan
     }
 }
+

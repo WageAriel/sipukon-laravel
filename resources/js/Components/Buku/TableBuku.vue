@@ -80,7 +80,9 @@ const closeEditModal = () => {
                 <tr>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">ISBN</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Publisher</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">tahun</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Cover</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
@@ -89,7 +91,9 @@ const closeEditModal = () => {
                 <tr v-for="item in data" :key="item.id">
                     <td class="px-6 py-4 text-center">{{ item.title }}</td>
                     <td class="px-6 py-4 text-center">{{ item.author }}</td>
-                    <td class="px-6 py-4 text-center">{{ item.description }}</td>
+                    <td class="px-6 py-4 text-center">{{ item.isbn }}</td>
+                    <td class="px-6 py-4 text-center">{{ item.publisher }}</td>
+                    <td class="px-6 py-4 text-center">{{ item.tahun }}</td>
                     <td class="px-6 py-4 text-center">
                         <img :src="`/storage/book_covers/${item.cover_image}`" alt="Cover Image" class="w-20 h-20 object-cover mx-auto" />
                     </td>
