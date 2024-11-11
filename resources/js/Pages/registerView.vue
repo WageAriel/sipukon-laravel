@@ -22,7 +22,7 @@ const selectOptions = [
 ];
 
 const form = useForm({
-    name: "",
+    username: "",
     email: "",
     password: "",
     password_confirmation: "",
@@ -33,13 +33,13 @@ const errors = ref({});
 const showAlert = ref(false);
 
 const isFormValid = computed(() => {
-    return form.name && form.password  && form.nama;
+    return form.username && form.password  && form.nama;
 });
 
 const validateForm = () => {
     errors.value = {};
-    if (!form.name) {
-        errors.value.name = "Name is required.";
+    if (!form.username) {
+        errors.value.username = "Name is required.";
     }
     if (!form.password) {
         errors.value.password = "Password is required.";
@@ -78,9 +78,9 @@ const reset = () => {
 <template>
     <CardBox form @submit.prevent="submit">
         <FormField label="Username">
-            <FormControl v-model="form.name" id="name" :icon="mdiAccount" />
-            <p v-if="errors.name" class="text-red-500 text-sm mt-0">
-                {{ errors.name }}
+            <FormControl v-model="form.username" id="name" :icon="mdiAccount" />
+            <p v-if="errors.username" class="text-red-500 text-sm mt-0">
+                {{ errors.username }}
             </p>
         </FormField>
         <FormField label="Nama">

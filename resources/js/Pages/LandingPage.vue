@@ -15,9 +15,9 @@
             </div>
             <div class="text-[#191825]/50 text-lg md:text-xl font-normal font-['Inter'] leading-loose text-center md:text-left">Bringing a Universe of Books Right to Your Fingertips</div>
             <div class="flex justify-center md:justify-start items-start gap-4">
-                <div class="px-8 py-4 bg-[#00afef] rounded-full shadow flex justify-center items-center">
-                    <div class="text-[#eeeeee] text-base font-bold leading-tight">Start Reading!</div>
-                </div>
+                <button class="px-8 py-4 bg-[#00afef] rounded-full shadow flex justify-center items-center">
+                    <Link href="/library" class="text-[#eeeeee] text-base font-bold leading-tight">Start Reading!</Link>
+                </button>
             </div>
         </div>
         <div class="w-full max-w-[772px] h-auto md:h-[655px] relative flex justify-center items-center">
@@ -139,7 +139,7 @@
 
 <script setup>
 import { ref, onBeforeMount, computed } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import { BuildingLibraryIcon, PaperAirplaneIcon, MapPinIcon, ArrowLeftIcon } from '@heroicons/vue/24/solid';
 import HeaderNav from '@/ComponentLanding/HeaderNav.vue'

@@ -4,7 +4,8 @@ import { computed } from 'vue'
 const props = defineProps({
   username: {
     type: String,
-    required: true
+    required: true,
+    default: 'default-user' // fallback jika username tidak tersedia
   },
   avatar: {
     type: String,
@@ -14,16 +15,20 @@ const props = defineProps({
     type: String,
     default: 'avataaars'
   }
-})
+});
 
-const avatar = computed(
-  () =>
+
+const avatar = computed(() => {
+  const sanitizedUsername = props.username
+    ? props.username.replace(/[^a-z0-9]+/gi, '-')
+    : 'default-user'; // fallback jika username tidak tersedia
+
+  return (
     props.avatar ??
-    `https://api.dicebear.com/7.x/${props.api}/svg?seed=${props.username.replace(
-      /[^a-z0-9]+/gi,
-      '-'
-    )}.svg`
-)
+    `https://api.dicebear.com/7.x/${props.api}/svg?seed=${sanitizedUsername}.svg`
+  );
+});
+
 
 const username = computed(() => props.username)
 </script>

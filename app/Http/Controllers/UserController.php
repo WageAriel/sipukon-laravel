@@ -77,7 +77,7 @@ class UserController extends Controller
     public function store(Request $request)
 {
     $validated = $request->validate([
-        'name' => 'required|string|max:255',
+        'username' => 'required|string|max:255',
         'email' => 'nullable|string|email|max:255|unique:users,email',
         'password' => 'required|string|min:8',
         'role' => 'required|string|max:50',
@@ -87,7 +87,7 @@ class UserController extends Controller
 
     // If validation passes, create the user
     User::create([
-        'name' => $validated['name'],
+        'username' => $validated['username'],
         'email' => $validated['email'],
         'password' => bcrypt($validated['password']),
         'role' =>  'user',
@@ -103,12 +103,12 @@ class UserController extends Controller
         $user = User::findOrFail($id); // Fetch user by ID
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id,
         ]);
 
         $dataToUpdate = [
-            'name' => $validated['name'],
+            'username' => $validated['username'],
             'email' => $validated['email'],
         ];
 

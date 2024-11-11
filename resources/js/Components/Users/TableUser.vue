@@ -29,7 +29,7 @@
                 </thead>
                 <tbody v-if="paginatedUsers.length > 0" class="bg-dark divide-y">
                     <tr v-for="item in paginatedUsers" :key="item.id">
-                        <td class="px-6 py-4">{{ item.name }}</td>
+                        <td class="px-6 py-4">{{ item.username }}</td>
                         <td class="px-6 py-4">{{ item.email }}</td>
                         <td class="px-6 py-4">{{ item.role }}</td>
                         <td class="px-6 py-4">
@@ -113,7 +113,7 @@ const filteredUsers = computed(() => {
         const lowercasedQuery = searchQuery.value.toLowerCase();
         result = result.filter(
             (user) =>
-                user.name?.toLowerCase().includes(lowercasedQuery) ||
+                user.username?.toLowerCase().includes(lowercasedQuery) ||
                 user.role?.toLowerCase().includes(lowercasedQuery)
         );
     }

@@ -26,13 +26,13 @@ const errors = ref({});
 const showAlert = ref(false);
 
 const isFormValid = computed(() => {
-    return form.name && form.password && form.role && form.nama;
+    return form.username && form.password && form.role && form.nama;
 });
 
 const validateForm = () => {
     errors.value = {};
-    if (!form.name) {
-        errors.value.name = "Name is required.";
+    if (!form.username) {
+        errors.value.username = "Name is required.";
     }
     if (!form.password) {
         errors.value.password = "Password is required.";
@@ -68,17 +68,13 @@ const reset = () => {
 
 <template>
     <CardBox form @submit.prevent="submit">
-        <h1 class="text-xl font-bold">User Form</h1>
-        <BaseDivider />
-
         <FormField label="Username">
-            <FormControl v-model="form.name" id="name" :icon="mdiAccount" placeholder="Enter username">
-              <p v-if="errors.name" class="text-red-500 text-sm mt-1">
-                  {{ errors.name }}
-              </p>
-            </FormControl>
+            <FormControl v-model="form.username" id="name" :icon="mdiAccount" />
+            <p v-if="errors.username" class="text-red-500 text-sm mt-0">
+                {{ errors.username }}
+            </p>
         </FormField>
-        
+
         <FormField label="Email">
             <FormControl v-model="form.email" id="email" :icon="mdiMail" placeholder="Enter email">
               <p v-if="errors.email" class="text-red-500 text-sm mt-1">

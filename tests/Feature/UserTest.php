@@ -26,7 +26,7 @@ class UserTest extends TestCase
         $this->actingAs($this->admin);
 
         $response = $this->post('/users', [
-            'name' => 'John Doe',
+            'username' => 'John Doe',
             'email' => 'johndoe@example.com',
             'password' => 'password123',
             'role' => 'user',
@@ -52,12 +52,12 @@ class UserTest extends TestCase
         $this->actingAs($this->admin);
 
         $user = User::factory()->create([
-            'name' => 'Jane Doe',
+            'username' => 'Jane Doe',
             'email' => 'janedoe@example.com',
         ]);
 
         $response = $this->put("/users/{$user->id}", [
-            'name' => 'Jane Updated',
+            'username' => 'Jane Updated',
             'email' => 'janeupdated@example.com',
         ]);
 
@@ -84,12 +84,12 @@ class UserTest extends TestCase
         $this->actingAs($this->admin);
 
         $response = $this->post('/users', [
-            'name' => '',
+            'username' => '',
             'email' => 'not-an-email',
             'password' => 'short',
         ]);
 
-        $response->assertSessionHasErrors(['name', 'email', 'password']);
+        $response->assertSessionHasErrors(['username', 'email', 'password']);
     }
 
     // Test untuk mengubah data yang tidak ada
@@ -98,7 +98,7 @@ class UserTest extends TestCase
         $this->actingAs($this->admin);
 
         $response = $this->put('/users/9999', [
-            'name' => 'Non Existent',
+            'username' => 'Non Existent',
             'email' => 'nonexistent@example.com',
         ]);
 
@@ -126,7 +126,7 @@ class UserTest extends TestCase
 
         // Test Create
         $response = $this->post('/users', [
-            'name' => 'No Access User',
+            'username' => 'No Access User',
             'email' => 'noaccess@example.com',
             'password' => 'password123',
             'role' => 'user',
@@ -135,7 +135,7 @@ class UserTest extends TestCase
 
         // Test Update
         $response = $this->put("/users/{$user->id}", [
-            'name' => 'Updated Name',
+            'username' => 'Updated username',
             'email' => 'updated@example.com',
         ]);
         $response->assertStatus(403); // Akses ditolak

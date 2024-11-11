@@ -23,7 +23,7 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email', // Set email sebagai wajib
             'password' => 'required|string|min:8|confirmed', // Konfirmasi password
             'nama' => 'required|string|max:255',
@@ -31,7 +31,7 @@ class RegisterController extends Controller
     
         // Buat user baru dengan role default 'user'
         User::create([
-            'name' => $validated['name'],
+            'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
             'role' => 'user', // Set role default sebagai 'user'

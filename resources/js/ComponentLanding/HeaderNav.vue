@@ -7,10 +7,10 @@
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex gap-10 items-center text-base font-medium capitalize text-neutral-900">
-          <Link href="/" class="self-stretch my-auto">HOME</Link>
-          <Link href="/library" class="self-stretch my-auto">LIBRARY</Link>
-          <Link href="/lending" class="self-stretch my-auto">LENDING</Link>
-          <Link href="/about" class="self-stretch my-auto">ABOUT</Link>
+          <Link href="/" class="self-stretch my-auto hover:text-sky-500">HOME</Link>
+          <Link href="/library" class="self-stretch my-auto hover:text-sky-500">LIBRARY</Link>
+          <Link href="/lending" class="self-stretch my-auto hover:text-sky-500">LENDING</Link>
+          <Link href="/about" class="self-stretch my-auto hover:text-sky-500">ABOUT</Link>
       </nav>
 
       <!-- User Avatar and Login/Logout Buttons -->
@@ -26,7 +26,7 @@
               <Profile v-if="showProfile" @close="showProfile = false" />
           </div>
 
-          <Link v-if="!auth.user" :href="route('login')" class="overflow-hidden gap-2.5 px-6 py-3 bg-sky-500 rounded-xl">
+          <Link v-if="!auth.user" :href="route('login')" class="overflow-hidden border-2 gap-2.5 px-6 py-3 bg-sky-500 hover:bg-white hover:text-sky-500 hover:border-solid hover:border-2 hover:border-sky-500 rounded-xl">
               Login
           </Link>
           <button v-else @click="logout" class="overflow-hidden gap-2.5 px-6 py-3 bg-red-500 rounded-xl">

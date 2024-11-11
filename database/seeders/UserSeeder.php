@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name' => 'Admin',
+                'username' => 'Admin',
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password123'), // Password yang di-hash
                 'role' => 'admin',
@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
                 'is_active' => true,  // Mengatur akun sebagai aktif
             ],
             [
-                'name' => 'User1',
+                'username' => 'User1',
                 'email' => 'user1@example.com',
                 'password' => Hash::make('password123'),
                 'role' => 'user',

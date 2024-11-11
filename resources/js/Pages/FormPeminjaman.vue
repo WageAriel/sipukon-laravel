@@ -5,16 +5,17 @@
       
       <!-- Judul/ID Buku -->
       <div class="mb-4">
-        <label for="bookId" class="block text-sm font-medium text-gray-700">Judul/ID Buku *</label>
+        <label for="bookId" class="block text-sm font-medium text-gray-700">Judul Buku *</label>
         <input
           type="text"
           id="bookId"
-          v-model="form.bookId"
+          v-model="form.judul"
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
           placeholder="Text"
           required
         />
-      </div>
+        <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.judul }}</span>
+            </div>
       
       <!-- Nama Peminjam -->
       <div class="mb-4">
@@ -22,11 +23,12 @@
         <input
           type="text"
           id="borrowerName"
-          v-model="form.borrowerName"
+          v-model="form.nama_peminjam"
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
           placeholder="Text"
           required
         />
+        <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.nama_peminjam }}</span>
       </div>
       
       <!-- Tanggal Peminjaman & Tanggal Pengembalian -->
@@ -36,20 +38,22 @@
           <!-- Replace this with your chosen date picker component -->
           <input
             type="date"
-            v-model="form.borrowDate"
+            v-model="form.tanggal_peminjaman"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
             required
           />
+          <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.tanggal_peminjaman }}</span>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Tanggal Pengembalian *</label>
           <!-- Replace this with your chosen date picker component -->
           <input
             type="date"
-            v-model="form.returnDate"
+            v-model="form.tanggal_pengembalian"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
             required
           />
+          <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.tanggal_pengembalian }}</span>
         </div>
       </div>
   
@@ -62,7 +66,7 @@
               type="radio"
               id="pickup"
               value="pickup"
-              v-model="form.pickupMethod"
+              v-model="form.metode_pengambilan"
               class="focus:ring-sky-500 h-4 w-4 text-sky-600 border-gray-300"
               required
             />
@@ -73,21 +77,22 @@
               type="radio"
               id="delivery"
               value="delivery"
-              v-model="form.pickupMethod"
+              v-model="form.metode_pengambilan"
               class="focus:ring-sky-500 h-4 w-4 text-sky-600 border-gray-300"
               required
             />
             <label for="delivery" class="ml-3 block text-sm text-gray-700">Kirim ke alamat</label>
           </div>
+          <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.metode_pengambilan }}</span>
         </div>
       </div>
   
       <!-- Alamat Pengiriman -->
-      <div v-if="form.pickupMethod === 'delivery'" class="mt-4">
+      <div v-if="form.metode_pengambilan === 'delivery'" class="mt-4">
         <label for="address" class="block text-sm font-medium text-gray-700">Alamat Pengiriman (Jika memilih pengiriman)</label>
         <textarea
           id="address"
-          v-model="form.address"
+          v-model="form.alamat"
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
           placeholder="Text"
         ></textarea>
@@ -110,29 +115,60 @@
   <script setup>
   import HeaderNav from '@/ComponentLanding/HeaderNav.vue'
   import FooterView from '@/ComponentLanding/FooterView.vue'
-  </script>
+  import { ref } from 'vue';
+import axios from 'axios';
 
-  <script>
-  export default {
-    data() {
-      return {
-        form: {
-          bookId: '',
-          borrowerName: '',
-          borrowDate: '',
-          returnDate: '',
-          pickupMethod: '',
-          address: '',
-        },
-      };
-    },
-    methods: {
-      handleSubmit() {
-        // Handle form submission
-        console.log(this.form);
-      },
-    },
-  };
+const form = ref({
+  judul: '',
+  nama_peminjam: '',
+  tanggal_peminjaman: '',
+  tanggal_pengembalian: '',
+  metode_pengambilan: '',
+  alamat: '',
+});
+
+const errors = ref({});
+
+const handleSubmit = async () => {
+    console.log('Form submitted');
+    errors.value = {};
+
+    // Validasi manual sebelum mengirim data
+    if (!form.value.judul) {
+        errors.value.judul = "Judul buku harus diisi.";
+    }
+    if (!form.value.nama_peminjam) {
+        errors.value.nama_peminjam = "Nama peminjam harus diisi.";
+    }
+    // Cek validasi lainnya sesuai kebutuhan...
+
+    // Jika ada kesalahan, jangan lanjutkan
+    if (Object.keys(errors.value).length > 0) {
+        return; // Kembali jika ada kesalahan
+    } // Tambahkan ini untuk memeriksa jika fungsi dipanggil
+    try {
+        const response = await axios.post('/lending', {
+            judul: form.value.judul,
+            nama_peminjam: form.value.nama_peminjam,
+            tanggal_peminjaman: form.value.tanggal_peminjaman,
+            tanggal_pengembalian: form.value.tanggal_pengembalian,
+            metode_pengambilan: form.value.metode_pengambilan,
+            alamat: form.value.alamat,
+        });
+        console.log(response.data);
+        errors.value = {}; // Reset error jika berhasil
+    } catch (error) {
+      if (error.response && error.response.data.errors) {
+            errors.value = error.response.data.errors; // Mengambil error dari response
+        } else if (error.response && error.response.data.message) {
+            // Misalkan server mengembalikan pesan tidak ditemukan
+            errors.value.judul = error.response.data.message; // Atur pesan tidak ditemukan ke errors.judul
+        } else {
+            console.error(error);
+        }
+    }
+};
+
   </script>
   
   <style scoped>

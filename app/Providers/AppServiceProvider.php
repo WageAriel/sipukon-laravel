@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         Inertia::share([
             'auth' => function () {
                 return [
-                    'user' => Auth::user() ? Auth::user()->only('id', 'name', 'email') : null,
+                    'user' => Auth::user() ? Auth::user()->only('id', 'username', 'email') : null,
                 ];
             },
         ]);

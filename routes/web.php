@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PasswordChangeController;
+use App\Http\Controllers\PeminjamanController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
@@ -69,6 +70,8 @@ Route::get('/home', function () {
 Route::get('/library', function () {
     return Inertia::render('LibraryPage'); // Replace 'LibraryView' with the actual Vue component
 })->name('library');
+
+Route::post('/lending', [PeminjamanController::class, 'store']); // Menyimpan peminjaman
 
 Route::get('/lending', function () {
     return Inertia::render('FormPeminjaman'); // Replace 'LendingView' with the actual Vue component

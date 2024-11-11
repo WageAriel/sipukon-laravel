@@ -25,7 +25,7 @@ class UserCrudTest extends TestCase
     public function it_can_register_a_user()
     {
         $response = $this->post(route('register.store'), [
-            'name' => 'testuser',
+            'username' => 'testuser',
             'email' => 'test@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
@@ -77,7 +77,7 @@ public function it_can_change_password()
 {
     // Membuat pengguna dengan atribut lengkap
     $user = User::factory()->create([
-        'name' => 'testuser', // Tambahkan username
+        'username' => 'testuser', // Tambahkan username
         'email' => 'test@example.com', // Tambahkan email
         'password' => bcrypt('oldpassword'), // Password lama
         'nama' => 'Test User', // Nama yang mungkin diperlukan

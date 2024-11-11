@@ -25,7 +25,7 @@ class UserFactory extends Factory
     public function definition(): array
 {
     return [
-        'name' => fake()->name(),
+        'username' => fake()->name(),
         'email' => fake()->unique()->safeEmail(),
         'password' => Hash::make('password123'), // Pastikan password ini sesuai
         'role' => 'user', // Set default role
