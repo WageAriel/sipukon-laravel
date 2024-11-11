@@ -109,7 +109,7 @@ defineProps({
         </FormField>
 
         <FormField label="ISBN">
-            <FormControl v-model="form.isbn" placeholder="Enter ISBN">
+            <FormControl v-model="form.isbn" :icon="mdiBarcode" placeholder="Enter ISBN">
               <p v-if="errors.isbn" class="text-red-500 text-sm mt-1">
                   {{ errors.isbn }}
               </p>
@@ -117,7 +117,7 @@ defineProps({
         </FormField>
 
         <FormField label="Publisher">
-            <FormControl v-model="form.publisher" placeholder="Enter publisher name">
+            <FormControl v-model="form.publisher" :icon="mdiPublish" placeholder="Enter publisher name">
               <p v-if="errors.publisher" class="text-red-500 text-sm mt-1">
                   {{ errors.publisher }}
               </p>
@@ -125,7 +125,7 @@ defineProps({
         </FormField>
 
         <FormField label="Tahun">
-            <FormControl v-model="form.tahun" placeholder="Enter years">
+            <FormControl v-model="form.tahun" :icon="mdiStar" placeholder="Enter years">
               <p v-if="errors.tahun" class="text-red-500 text-sm mt-1">
                   {{ errors.tahun }}
               </p>

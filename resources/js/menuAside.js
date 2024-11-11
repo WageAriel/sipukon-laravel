@@ -56,16 +56,16 @@ export default [
     label: 'Forms',
     icon: mdiSquareEditOutline
   },
-  {
-    route: 'ui',
-    label: 'UI',
-    icon: mdiTelevisionGuide
-  },
-  {
-    route: 'responsive',
-    label: 'Responsive',
-    icon: mdiResponsive
-  },
+  // {
+  //   route: 'ui',
+  //   label: 'UI',
+  //   icon: mdiTelevisionGuide
+  // },
+  // {
+  //   route: 'responsive',
+  //   label: 'Responsive',
+  //   icon: mdiResponsive
+  // },
   // {
   //   to: '/',
   //   label: 'Styles',

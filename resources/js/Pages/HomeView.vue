@@ -9,7 +9,8 @@ import {
   mdiMonitorCellphone,
   mdiReload,
   mdiGithub,
-  mdiChartPie
+  mdiChartPie,
+  mdiSchool
 } from '@mdi/js'
 import * as chartConfig from '@/components/Charts/chart.config.js'
 import LineChart from '@/components/Charts/LineChart.vue'
@@ -31,15 +32,15 @@ const fillChartData = () => {
   chartData.value = chartConfig.sampleChartData()
 }
 
+const props = defineProps({
+    user: { type: Array, default: () => [] },
+    buku: { type: Array, default: () => [] },
+    prodi: { type: Array, default: () => [] },
+});
+
 onMounted(() => {
   fillChartData()
 })
-
-const mainStore = useMainStore()
-
-const clientBarItems = computed(() => mainStore.clients.slice(0, 4))
-
-const transactionBarItems = computed(() => mainStore.history)
 </script>
 
 <template>
@@ -64,26 +65,24 @@ const transactionBarItems = computed(() => mainStore.history)
           trend-type="up"
           color="text-emerald-500"
           :icon="mdiAccountMultiple"
-          :number="512"
-          label="Clients"
+          :number="user?.length ||0"
+          label="Users"
         />
         <CardBoxWidget
           trend="12%"
-          trend-type="down"
-          color="text-blue-500"
-          :icon="mdiCartOutline"
-          :number="7770"
-          prefix="$"
-          label="Sales"
+          trend-type="up"
+          color="text-emerald-500"
+          :icon="mdiAccountMultiple"
+          :number="buku?.length ||0"
+          label="Books"
         />
         <CardBoxWidget
-          trend="Overflow"
+          trend="overflow"
           trend-type="alert"
-          color="text-red-500"
-          :icon="mdiChartTimelineVariant"
-          :number="256"
-          suffix="%"
-          label="Performance"
+          color="text-blue-500"
+          :icon="mdiSchool"
+          :number="prodi?.length ||0"
+          label="Program Studi"
         />
       </div>
 
