@@ -17,15 +17,6 @@ return new class extends Migration
             $table->timestamps();
         });
         
-        // Schema::create('mahasiswa', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('mahasiswa_id')->index();
-        //     $table->string('nama_mahasiswa'); // Tambahkan kolom nama_mahasiswa
-        //     // Menambahkan kolom prodi_id sebagai foreign key
-        //     $table->foreignId('prodi_id')->constrained('prodi')->onUpdate('cascade');
-        //     $table->timestamps();
-        // });
-        
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -34,7 +25,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('role')->default('user');
             $table->string('nama')->nullable();
-            $table->string('status')->default('tidak meminjam');
+            $table->string('status')->default('Tidak meminjam');
+            $table->string('prodi')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -63,6 +55,7 @@ return new class extends Migration
             $table->string('publisher')->nullable(); // Tambahkan kolom Publisher
             $table->year('tahun')->nullable(); // Tambahkan kolom Tahun
             $table->string('cover_image')->nullable();
+            $table->integer('banyaknya_dipinjam')->default(0);
             $table->timestamps();
         });
     }

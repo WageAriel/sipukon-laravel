@@ -90,6 +90,7 @@ import BaseDivider from "@/Components/BaseDivider.vue";
 import BaseButton from "@/Components/BaseButton.vue";
 import BaseButtons from "@/Components/BaseButtons.vue";
 import MultipleFormFilePicker from "@/Components/MultipleFormFilePicker.vue";
+import Swal from 'sweetalert2';
 
 const form = useForm({
     title: "",
@@ -128,7 +129,6 @@ const validateForm = () => {
 
 const submit = () => {
     if (validateForm()) {
-        showAlert.value = false;
 
         const formData = new FormData();
         formData.append("title", form.title);
@@ -143,21 +143,34 @@ const submit = () => {
         form.post(route("buku.store"), {
             data: formData,
             onSuccess: () => {
-                reset();
+                await nextTick();
+                Swal.fire({
+                    title: "Berhasil!",
+                    text: "Data buku berhasil disimpan.",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#3085d6"
+                }).then(() => {
+                    reset(); // Reset form setelah pengguna menekan "OK" di swal
+                });
             },
             onError: (errors) => {
                 console.log(errors);
+                Swal.fire({
+                    title: "Gagal!",
+                    text: "Terjadi kesalahan saat menyimpan data buku.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#d33"
+                });
             },
         });
-    } else {
-        showAlert.value = true;
     }
 };
 
 const reset = () => {
     form.reset();
     errors.value = {};
-    showAlert.value = false;
 };
 </script>
 

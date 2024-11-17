@@ -25,31 +25,36 @@ class BookTest extends TestCase
         $this->actingAs($this->adminUser);
 
         $response = $this->post(route('buku.store'), [
-            'title' => '',
+            'title' => 'Book Title',
             'author' => 'Author Name',
-            'description' => 'Description of the book',
+            'isbn' => '9781234567890', // Tambahkan ISBN
+            'publisher' => 'Publisher Name', // Tambahkan Publisher
+            'tahun' => 2023, // Tambahkan Tahun
             'cover_image' => UploadedFile::fake()->image('cover.jpg')
         ]);
 
         $response->assertRedirect();
-        $response->assertSessionHasErrors(['title']);
-        $this->assertDatabaseHas('buku', ['author' => 'Author Name']);
+        $this->assertDatabaseHas('buku', [
+            'title' => 'Book Title',
+            'author' => 'Author Name',
+            'isbn' => '9781234567890',
+            'publisher' => 'Publisher Name',
+            'tahun' => 2023,
+        ]);
     }
 
     /** @test */
-  /** @test */
-public function admin_dapat_melihat_list_buku()
-{
-    $this->actingAs($this->adminUser);
+    public function admin_dapat_melihat_list_buku()
+    {
+        $this->actingAs($this->adminUser);
 
-    Book::factory()->create(['title' => 'Book Title']);
+        Book::factory()->create(['title' => 'Book Title']);
 
-    $response = $this->get(route('buku'));
+        $response = $this->get(route('buku'));
 
-    $response->assertStatus(200);
-    $response->assertSee('Book Title');
-}
-
+        $response->assertStatus(200);
+        $response->assertSee('Book Title');
+    }
 
     /** @test */
     public function admin_dapat_update_data_buku()
@@ -61,12 +66,20 @@ public function admin_dapat_melihat_list_buku()
         $response = $this->put(route('buku.update', $book->id), [
             'title' => 'Updated Title',
             'author' => 'Updated Author',
-            'description' => 'Updated Description',
+            'isbn' => '9780987654321', 
+            'publisher' => 'Updated Publisher',
+            'tahun' => 2024, // Update Tahun
             'cover_image' => UploadedFile::fake()->image('new_cover.jpg')
         ]);
 
         $response->assertRedirect();
-        $this->assertDatabaseHas('buku', ['title' => 'Updated Title']);
+        $this->assertDatabaseHas('buku', [
+            'title' => 'Updated Title',
+            'author' => 'Updated Author',
+            'isbn' => '9780987654321',
+            'publisher' => 'Updated Publisher',
+            'tahun' => 2024,
+        ]);
     }
 
     /** @test */

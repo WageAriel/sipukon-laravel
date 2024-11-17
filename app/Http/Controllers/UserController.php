@@ -97,6 +97,22 @@ class UserController extends Controller
     return redirect()->route('user'); // Redirects if successful
 }
 
+public function updateStatus(Request $request)
+{
+    \Log::info('Received request to update status for user_id: ' . $request->user_id);
+    $user = User::find($request->user_id);
+    
+    if ($user) {
+        $user->status = 'Meminjam';
+        $user->save();
+        \Log::info('Successfully updated status to meminjam for user_id: ' . $user->id);
+        return response()->json(['message' => 'Status updated successfully']);
+    }
+
+    \Log::error('User not found with user_id: ' . $request->user_id);
+    return response()->json(['message' => 'User not found'], 404);
+}
+
 
     public function update(Request $request, $id)
     {

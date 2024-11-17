@@ -84,6 +84,7 @@ const closeEditModal = () => {
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Publisher</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">tahun</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Cover</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Total Dipinjan</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
@@ -97,6 +98,7 @@ const closeEditModal = () => {
                     <td class="px-6 py-4 text-center">
                         <img :src="`/storage/book_covers/${item.cover_image}`" alt="Cover Image" class="w-20 h-20 object-cover mx-auto" />
                     </td>
+                    <td class="px-6 py-4 text-center">{{ item.banyaknya_dipinjam }}</td>
                     <td class="px-6 py-4 text-center">
                         <BaseButton :icon="mdiPencil" color="warning" @click="editData(item)" class="mx-4" />
                         <BaseButton :icon="mdiDelete" color="danger" @click="confirmDelete(item.id)" />

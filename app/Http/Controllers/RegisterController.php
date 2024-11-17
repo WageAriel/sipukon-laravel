@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,7 +19,10 @@ class RegisterController extends Controller
 }
     public function showRegisterForm()
     {
-        return Inertia::render('registerView'); // Mengarahkan ke registerView.vue
+        $prodi = Prodi::all();
+        return Inertia::render('registerView', [
+            'prodi' => $prodi
+        ]);
     }
     public function store(Request $request)
     {
@@ -27,6 +31,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email', // Set email sebagai wajib
             'password' => 'required|string|min:8|confirmed', // Konfirmasi password
             'nama' => 'required|string|max:255',
+            'prodi' => 'required|string|exists:prodi,nama_prodi',
         ]);
     
         // Buat user baru dengan role default 'user'
@@ -36,6 +41,7 @@ class RegisterController extends Controller
             'password' => bcrypt($validated['password']),
             'role' => 'user', // Set role default sebagai 'user'
             'nama' => $validated['nama'],
+            'prodi' => $validated['prodi']
         ]);
     
         // Redirect ke halaman lain atau menampilkan pesan sukses

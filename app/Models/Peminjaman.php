@@ -16,5 +16,6 @@ class Peminjaman extends Model
         'tanggal_pengembalian',
         'metode_pengambilan',
         'alamat',
+        'status_pengembalian',
     ];
 }

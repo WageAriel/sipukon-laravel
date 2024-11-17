@@ -14,7 +14,12 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    prodi: {
+        type: Array,
+        required: true,
+    },
 });
+const prodiOptions = computed(() => props.prodi);
 
 const selectOptions = [
     { label: "Admin", value: "admin" },
@@ -26,7 +31,8 @@ const form = useForm({
     email: "",
     password: "",
     password_confirmation: "",
-    nama: ""
+    nama: "",
+    prodi: '',
 });
 
 const errors = ref({});
@@ -95,6 +101,20 @@ const reset = () => {
             <p v-if="errors.email" class="text-red-500 text-sm mt-0">
                 {{ errors.email }}
             </p>
+        </FormField>
+
+        <FormField label="Program Studi">
+            <select
+                v-model="form.prodi"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
+                required
+            >
+                <option value="" disabled>-- Pilih Program Studi --</option>
+                <option v-for="item in prodiOptions" :key="item.id" :value="item.nama_prodi">
+                    {{ item.nama_prodi }}
+                </option>
+            </select>
+            <p v-if="errors.prodi" class="text-red-500 text-sm">{{ errors.prodi }}</p>
         </FormField>
 
         <FormField label="Password">

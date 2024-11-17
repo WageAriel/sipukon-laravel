@@ -40,7 +40,7 @@
                                     <div class="text-[#131313] text-[15px] font-medium font-['Inter'] leading-normal">Prodi</div>
                                 </div>
                             </div>
-                            <div class="text-[#131313] text-[15px] font-medium font-['Inter'] leading-normal">D3 Teknik Informatika</div>
+                            <div class="text-[#131313] text-[15px] font-medium font-['Inter'] leading-normal">{{user.prodi}}</div>
                         </div>
                         <div class="w-[335px] justify-between items-center inline-flex">
                             <div class="justify-start items-center gap-2.5 flex">

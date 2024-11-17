@@ -1,6 +1,6 @@
 <template>
     <HeaderNav/>
-    <div class="max-w-lg mx-auto p-6">
+    <div class="max-w-lg mt-[20px] mb-[150px] mx-auto p-6">
       <h2 class="text-2xl font-bold text-center mb-6">Form Peminjaman</h2>
       
       <!-- Judul/ID Buku -->
@@ -16,20 +16,7 @@
         />
         <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.judul }}</span>
             </div>
-      
-      <!-- Nama Peminjam -->
-      <div class="mb-4">
-        <label for="borrowerName" class="block text-sm font-medium text-gray-700">Nama Peminjam *</label>
-        <input
-          type="text"
-          id="borrowerName"
-          v-model="form.nama_peminjam"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
-          placeholder="Text"
-          required
-        />
-        <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.nama_peminjam }}</span>
-      </div>
+    
       
       <!-- Tanggal Peminjaman & Tanggal Pengembalian -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -102,7 +89,7 @@
       <div class="mt-6">
         <button
           type="submit"
-          @click.prevent="handleSubmit"
+          @click.prevent="Submit"
           class="w-full bg-sky-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
         >
           Submit
@@ -116,11 +103,12 @@
   import HeaderNav from '@/ComponentLanding/HeaderNav.vue'
   import FooterView from '@/ComponentLanding/FooterView.vue'
   import { ref } from 'vue';
+  import Swal from 'sweetalert2';
 import axios from 'axios';
 
 const form = ref({
   judul: '',
-  nama_peminjam: '',
+  // nama_peminjam: '',
   tanggal_peminjaman: '',
   tanggal_pengembalian: '',
   metode_pengambilan: '',
@@ -129,7 +117,7 @@ const form = ref({
 
 const errors = ref({});
 
-const handleSubmit = async () => {
+const Submit = async () => {
     console.log('Form submitted');
     errors.value = {};
 
@@ -137,37 +125,70 @@ const handleSubmit = async () => {
     if (!form.value.judul) {
         errors.value.judul = "Judul buku harus diisi.";
     }
-    if (!form.value.nama_peminjam) {
-        errors.value.nama_peminjam = "Nama peminjam harus diisi.";
-    }
-    // Cek validasi lainnya sesuai kebutuhan...
-
-    // Jika ada kesalahan, jangan lanjutkan
+    // if (!form.value.nama_peminjam) {
+    //     errors.value.nama_peminjam = "Nama peminjam harus diisi.";
+    // }
     if (Object.keys(errors.value).length > 0) {
-        return; // Kembali jika ada kesalahan
-    } // Tambahkan ini untuk memeriksa jika fungsi dipanggil
+        return; 
+    }
+
+    // Memulai proses pengiriman data
     try {
         const response = await axios.post('/lending', {
             judul: form.value.judul,
-            nama_peminjam: form.value.nama_peminjam,
+            // nama_peminjam: form.value.nama_peminjam,
             tanggal_peminjaman: form.value.tanggal_peminjaman,
             tanggal_pengembalian: form.value.tanggal_pengembalian,
             metode_pengambilan: form.value.metode_pengambilan,
             alamat: form.value.alamat,
         });
+
         console.log(response.data);
-        errors.value = {}; // Reset error jika berhasil
+        errors.value = {}; 
+        Swal.fire({
+            icon: 'success',
+            title: 'Submit Berhasil',
+            text: 'Data telah berhasil disubmit!',
+        }).then(async () => {
+            // Pastikan user_id ada di response
+            console.log("User ID for updating:", response.data.user_id);
+            try {
+                await axios.post('/update-status', {
+                    user_id: response.data.user_id, // Pastikan mengirim user_id yang sesuai
+                });
+                console.log("Status successfully updated to 'meminjam'");
+            } catch (error) {
+                console.error("Error updating status:", error);
+            }
+            
+            // Reset form setelah menekan OK
+            form.value = {
+                judul: '',
+                // nama_peminjam: '', 
+                tanggal_peminjaman: '',
+                tanggal_pengembalian: '',
+                metode_pengambilan: '',
+                alamat: '',
+            };
+        });
     } catch (error) {
-      if (error.response && error.response.data.errors) {
-            errors.value = error.response.data.errors; // Mengambil error dari response
+      if (error.response && error.response.status === 422) {
+            // Tampilkan notifikasi Swal jika batas peminjaman tercapai
+            Swal.fire({
+                icon: 'error',
+                title: 'Batas Peminjaman Tercapai',
+                text: 'Anda hanya diperbolehkan meminjam maksimal 2 buku sekaligus.',
+            });
+        } else if (error.response && error.response.data.errors) {
+            errors.value = error.response.data.errors;
         } else if (error.response && error.response.data.message) {
-            // Misalkan server mengembalikan pesan tidak ditemukan
-            errors.value.judul = error.response.data.message; // Atur pesan tidak ditemukan ke errors.judul
+            errors.value.judul = error.response.data.message;
         } else {
             console.error(error);
         }
     }
 };
+
 
   </script>
   

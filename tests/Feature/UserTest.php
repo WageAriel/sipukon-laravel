@@ -30,6 +30,7 @@ class UserTest extends TestCase
             'email' => 'johndoe@example.com',
             'password' => 'password123',
             'role' => 'user',
+            'nama' => 'Ariel'
         ]);
 
         $response->assertStatus(302);
@@ -130,6 +131,7 @@ class UserTest extends TestCase
             'email' => 'noaccess@example.com',
             'password' => 'password123',
             'role' => 'user',
+            'nama' => 'Ariel'
         ]);
         $response->assertStatus(403); // Akses ditolak
 

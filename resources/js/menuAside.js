@@ -12,7 +12,7 @@ import {
   mdiPalette,
   mdiBookOpenPageVariant,
   mdiSchool,
-  mdiReact
+  mdiReact,
 } from '@mdi/js'
 
 export default [
@@ -26,16 +26,6 @@ export default [
     label: 'Users',
     icon: mdiAccountCircle
   },
-  // {
-  //   route: 'buku',
-  //   icon: mdiMonitor,
-  //   label: 'DataBuku'
-  // },
-  // {
-  //   to: 'Data Buku',
-  //   icon: mdiMonitor,
-  //   label: 'Dashboard'
-  // },
   {
     route: 'buku',
     label: 'Books',
@@ -47,57 +37,10 @@ export default [
     icon: mdiSchool
   },
   {
-    route: 'tables',
-    label: 'Tables',
-    icon: mdiTable
+    route: 'peminjamanData',
+    label: 'Peminjaman',
+    icon: mdiViewList
   },
-  {
-    route: 'forms',
-    label: 'Forms',
-    icon: mdiSquareEditOutline
-  },
-  // {
-  //   route: 'ui',
-  //   label: 'UI',
-  //   icon: mdiTelevisionGuide
-  // },
-  // {
-  //   route: 'responsive',
-  //   label: 'Responsive',
-  //   icon: mdiResponsive
-  // },
-  // {
-  //   to: '/',
-  //   label: 'Styles',
-  //   icon: mdiPalette
-  // },
-  // {
-  //   to: '/profile',
-  //   label: 'Profile',
-  //   icon: mdiAccountCircle
-  // },
-  // {
-  //   to: '/login',
-  //   label: 'Login',
-  //   icon: mdiLock
-  // },
-  // {
-  //   to: '/error',
-  //   label: 'Error',
-  //   icon: mdiAlertCircle
-  // },
-  // {
-  //   label: 'Dropdown',
-  //   icon: mdiViewList,
-  //   menu: [
-  //     {
-  //       label: 'Item One'
-  //     },
-  //     {
-  //       label: 'Item Two'
-  //     }
-  //   ]
-  // },
   {
     href: 'https://github.com/justboil/admin-one-vue-tailwind',
     label: 'GitHub',

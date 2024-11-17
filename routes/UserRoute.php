@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
+Route::post('/update-status', [UserController::class, 'updateStatus']);
+
+
 // Group all user routes under auth and verified middleware
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/user', [UserController::class, 'index'])->name('user');
