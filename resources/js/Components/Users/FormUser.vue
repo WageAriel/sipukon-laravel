@@ -15,7 +15,7 @@ const selectOptions = [
 ];
 
 const form = useForm({
-    name: "",
+    username: "",
     email: "",
     password: "",
     role: "",
@@ -69,7 +69,7 @@ const reset = () => {
 <template>
     <CardBox form @submit.prevent="submit">
         <FormField label="Username">
-            <FormControl v-model="form.username" id="name" :icon="mdiAccount" />
+            <FormControl v-model="form.username" id="name" :icon="mdiAccount" placeholder="Enter username"/>
             <p v-if="errors.username" class="text-red-500 text-sm mt-0">
                 {{ errors.username }}
             </p>

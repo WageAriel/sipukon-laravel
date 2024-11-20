@@ -28,18 +28,32 @@
   
           <!-- Kolom Kontak Kami -->
           <div class="text-white text-xl font-extrabold">
-            <h2>Contact Us</h2>
-            <ul class="mt-4 space-y-2">
-              <button class="flex items-center gap-2">
-                <MapPinIcon class="w-5 h-5"/>
-                Locations
-              </button>
-              <button class="flex items-center gap-2">
-                <EnvelopeIcon class="w-5 h-5"/>
+    <h2>Contact Us</h2>
+    <ul class="mt-4 space-y-2">
+      <!-- Locations Button -->
+      <button
+        @click="goToLocation"
+        class="flex items-center gap-2 hover:underline"
+      >
+        <MapPinIcon class="w-5 h-5" />
+        Locations
+      </button>
+
+              <!-- Email Button -->
+              <button
+                @click="sendEmail"
+                class="flex items-center gap-2 hover:underline"
+              >
+                <EnvelopeIcon class="w-5 h-5" />
                 Email
               </button>
-              <button class="flex items-center gap-2">
-                <PhoneIcon class="w-5 h-5"/>
+
+              <!-- Phone Button -->
+              <button
+                @click="callPhone"
+                class="flex items-center gap-2 hover:underline"
+              >
+                <PhoneIcon class="w-5 h-5" />
                 Phone
               </button>
             </ul>
@@ -79,4 +93,17 @@ import { Link, usePage } from '@inertiajs/vue3'
 import { Inertia } from '@inertiajs/inertia'
 import { MapPinIcon, EnvelopeIcon} from '@heroicons/vue/24/outline';
 import { PhoneIcon } from '@heroicons/vue/24/solid';
+
+
+const goToLocation = () => {
+  window.open('https://maps.app.goo.gl/FFfGsJD8L7heXUg76', '_blank');
+};
+
+const sendEmail = () => {
+  window.location.href = 'mailto:library@mail.uns.ac.id';
+};
+
+const callPhone = () => {
+  window.location.href = 'tel:0271654311';
+};
 </script>

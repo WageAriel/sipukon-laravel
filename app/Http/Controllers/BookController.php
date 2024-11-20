@@ -23,6 +23,12 @@ class BookController extends Controller
         return Inertia::render('BukuView', ['data' => $books]);
     }
 
+    public function library()
+    {
+        $books = Book::all();
+        return Inertia::render('LibraryPage', ['data' => $books]);
+    }
+
     public function store(Request $request)
 {
     try {

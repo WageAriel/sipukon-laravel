@@ -13,6 +13,7 @@
           <Link href="/about" class="self-stretch my-auto hover:text-sky-500">ABOUT</Link>
       </nav>
 
+          
       <!-- User Avatar and Login/Logout Buttons -->
       <div class="hidden md:flex gap-4 my-auto text-sm font-extrabold text-center text-white items-center">
           <!-- Button with UserCircleIcon only if user is logged in -->

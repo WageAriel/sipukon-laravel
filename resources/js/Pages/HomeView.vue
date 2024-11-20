@@ -10,7 +10,11 @@ import {
   mdiReload,
   mdiGithub,
   mdiChartPie,
-  mdiSchool
+  mdiSchool,
+  mdiBookAccount,
+  mdiBook,
+  mdiBookCross,
+  mdiBookAlphabet
 } from '@mdi/js'
 import * as chartConfig from '@/components/Charts/chart.config.js'
 import LineChart from '@/components/Charts/LineChart.vue'
@@ -65,15 +69,15 @@ onMounted(() => {
           trend-type="up"
           color="text-emerald-500"
           :icon="mdiAccountMultiple"
-          :number="user?.length ||0"
+          :number="user?.length ||2"
           label="Users"
         />
         <CardBoxWidget
           trend="12%"
           trend-type="up"
           color="text-emerald-500"
-          :icon="mdiAccountMultiple"
-          :number="buku?.length ||0"
+          :icon="mdiBookAlphabet"
+          :number="buku?.length ||20"
           label="Books"
         />
         <CardBoxWidget
@@ -81,7 +85,7 @@ onMounted(() => {
           trend-type="alert"
           color="text-blue-500"
           :icon="mdiSchool"
-          :number="prodi?.length ||0"
+          :number="prodi?.length ||3"
           label="Program Studi"
         />
       </div>

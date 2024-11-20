@@ -105,7 +105,18 @@
   import { ref } from 'vue';
   import Swal from 'sweetalert2';
 import axios from 'axios';
+import { onMounted } from 'vue';
+import { usePage } from '@inertiajs/inertia-vue3';
 
+
+onMounted(() => {
+  const { props } = usePage();
+  
+  // Ambil judul dari query parameter
+  if (props.query && props.query.judul) {
+    form.value.judul = props.query.judul; // Isi form dengan judul dari query parameter
+  }
+});
 const form = ref({
   judul: '',
   // nama_peminjam: '',

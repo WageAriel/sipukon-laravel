@@ -142,7 +142,7 @@ const submit = () => {
 
         form.post(route("buku.store"), {
             data: formData,
-            onSuccess: () => {
+            onSuccess: async() => {
                 await nextTick();
                 Swal.fire({
                     title: "Berhasil!",
