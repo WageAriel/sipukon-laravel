@@ -28,6 +28,7 @@
             v-model="form.tanggal_peminjaman"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
             required
+            readonly
           />
           <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.tanggal_peminjaman }}</span>
         </div>
@@ -39,6 +40,7 @@
             v-model="form.tanggal_pengembalian"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
             required
+            readonly
           />
           <span v-if="errors.judul" class="text-red-500 text-sm">{{ errors.tanggal_pengembalian }}</span>
         </div>
@@ -108,14 +110,24 @@ import axios from 'axios';
 import { onMounted } from 'vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 
-
 onMounted(() => {
-  const { props } = usePage();
-  
-  // Ambil judul dari query parameter
-  if (props.query && props.query.judul) {
-    form.value.judul = props.query.judul; // Isi form dengan judul dari query parameter
-  }
+    const params = new URLSearchParams(window.location.search);
+    const judul = params.get('judul'); // Ambil nilai dari query parameter "judul"
+    if (judul) {
+        form.value.judul = judul; // Isi form dengan nilai judul
+    }
+    const today = new Date();
+    const nextWeek = new Date(today);
+    nextWeek.setDate(today.getDate() + 7);
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    form.value.tanggal_peminjaman = formatDate(today);
+    form.value.tanggal_pengembalian = formatDate(nextWeek);
 });
 const form = ref({
   judul: '',

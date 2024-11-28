@@ -20,7 +20,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',    
-        'nama',  // Tambahkan ini
+        'nama', 
         'status',
         'prodi',
     ];

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('denda')->default(0);
             $table->string('nama_peminjam'); // Nama peminjam diambil dari nama akun
+            $table->string('status_denda')->default('Belum Lunas');
             $table->timestamps();
         });
     }

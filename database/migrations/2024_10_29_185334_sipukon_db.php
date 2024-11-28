@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tanggal_pengembalian');
             $table->string('metode_pengambilan');
             $table->string('alamat')->nullable();
-            $table->string('status_pengembalian')->default('dipinjam');
+            $table->string('status_pengembalian')->default('Dipinjam');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -20,6 +20,7 @@ class PeminjamanController extends Controller
             'data' => $peminjaman
         ], 200);
     }
+    
     public function index()
     {
         $peminjaman = Peminjaman::all();
@@ -29,9 +30,6 @@ class PeminjamanController extends Controller
     {
         $request->validate([
             'judul' => 'required|string',
-            // 'nama_peminjam' => 'required|string',
-            'tanggal_peminjaman' => 'required|date',
-            'tanggal_pengembalian' => 'required|date',
             'metode_pengambilan' => 'required|string',
             'alamat' => 'nullable|string',
         ]);
@@ -49,22 +47,25 @@ class PeminjamanController extends Controller
         }
         
         $jumlahPeminjamanAktif = Peminjaman::where('nama_peminjam', $user->nama)
-                                        ->where('status_pengembalian', 'dipinjam')
+                                        ->where('status_pengembalian', 'Dipinjam')
                                         ->count();
 
     if ($jumlahPeminjamanAktif >= 2) {
         return response()->json([], 422);
     }
 
+    $tanggalPeminjaman = Carbon::now();
+    $tanggalPengembalian = $tanggalPeminjaman->copy()->addDays(7);
+
         // Buat peminjaman baru
         Peminjaman::create([
             'judul' => $request->judul,
             'nama_peminjam' => $user->nama,
-            'tanggal_peminjaman' => $request->tanggal_peminjaman,
-            'tanggal_pengembalian' => $request->tanggal_pengembalian,
+            'tanggal_peminjaman' => $tanggalPeminjaman,
+            'tanggal_pengembalian' => $tanggalPengembalian,
             'metode_pengambilan' => $request->metode_pengambilan,
             'alamat' => $request->alamat,
-            'status_pengembalian' => 'dipinjam',
+            'status_pengembalian' => 'Dipinjam',
         ]);
 
         $book->increment('banyaknya_dipinjam');
@@ -77,22 +78,6 @@ class PeminjamanController extends Controller
             $user->save();
         }
 
-        $tanggalPengembalian = Carbon::parse($request->tanggal_pengembalian);
-    $tanggalSekarang = Carbon::now();
-
-    if ($tanggalSekarang->gt($tanggalPengembalian)) { // Jika sekarang > tanggal pengembalian
-        $denda = 5000;
-
-        // Cari atau buat data denda untuk pengguna ini
-        $dendaRecord = Denda::firstOrCreate(
-            ['nama_peminjam' => $user->nama],
-            ['denda' => 0]
-        );
-
-        // Tambahkan denda
-        $dendaRecord->denda += $denda;
-        $dendaRecord->save();
-    }
         // Kembalikan respon atau redirect sesuai kebutuhan
         return response()->json([
         'message' => 'Peminjaman berhasil dilakukan!'
@@ -130,6 +115,47 @@ class PeminjamanController extends Controller
     } catch (\Exception $e) {
         return back()->withErrors(['error' => $e->getMessage()]);
     }
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'status_pengembalian' => 'required|string',
+    ]);
+
+    $peminjaman = Peminjaman::findOrFail($id);
+    $statusBaru = $request->status_pengembalian;
+
+    // Check if the status is 'Dikembalikan'
+    if ($statusBaru == 'Dikembalikan') {
+        $tanggalSekarang = Carbon::now();
+        $tanggalPengembalian = Carbon::parse($peminjaman->tanggal_pengembalian);
+
+        // If the return date is overdue
+        if ($tanggalSekarang->gt($tanggalPengembalian)) {
+            // Calculate the overdue period in days
+            $overdueWeeks = $tanggalSekarang->diffInWeeks($tanggalPengembalian, false);
+            $denda = max(0, ceil(abs($overdueWeeks)) * 5000); // Assume 5000 per week
+            
+            // Add denda to the Denda table
+            Denda::create([
+                'nama_peminjam' => $peminjaman->nama_peminjam,
+                'denda' => $denda,
+                'status_denda' => 'Belum Lunas'
+            ]);
+
+            // Show a SweetAlert with the overdue fine
+            // return response()->json([
+            //     'message' => 'Peminjaman dikembalikan terlambat, denda: Rp ' . number_format($denda, 0, ',', '.'),
+            //     'denda' => $denda
+            // ], 422);
+        }
+    }
+
+    $peminjaman->status_pengembalian = $request->status_pengembalian;
+    $peminjaman->save();
+
+    // return response()->json(['message' => 'Status berhasil diperbarui!'], 200);
 }
 
 

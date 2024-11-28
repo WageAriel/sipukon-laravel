@@ -37,6 +37,7 @@ import FormField from '@/Components/FormField.vue';
 import FormControl from '@/Components/FormControl.vue';
 import BaseButton from '@/Components/BaseButton.vue';
 import { mdiAccount, mdiMail } from '@mdi/js';
+import Swal from "sweetalert2";
 
 const props = defineProps({
     item: {
@@ -70,10 +71,24 @@ const submit = () => {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {
-            emit('close');
+            emit("close");
+            Swal.fire({
+                title: "Berhasil!",
+                text: "Identitas User berhasil diperbarui.",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+            }).then(() => {
+                emit("close"); // Tutup modal setelah notifikasi sukses
+            });
         },
         onError: (errors) => {
-            console.log(errors);
+            Swal.fire({
+                title: "Gagal!",
+                text: "Terjadi kesalahan saat memperbarui User.",
+                icon: "error",
+                confirmButtonColor: "#d33",
+            });
+            console.log(errors); // Debug jika diperlukan
         },
     });
 };

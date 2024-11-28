@@ -75,7 +75,7 @@ public function login_gagal_dengan_akun_yang_tidak_valid()
         'password' => 'password123',
     ]);
 
-    $response->assertStatus(302);
+    $response->assertStatus(302);   
     $response->assertRedirect('/login');
     $response->assertSessionHasErrors(['email']);
     $this->assertGuest();

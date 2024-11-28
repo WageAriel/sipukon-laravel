@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -31,12 +32,35 @@ class UserController extends Controller
     return response()->json(['message' => 'Password updated successfully']);
 }
 
-    public function showProfile()
+// UserController.php
+public function showProfile()
 {
-    return Inertia::render('ProfilView', [
-        'user' => auth()->user() // Mengirimkan data pengguna yang sedang login
-    ]);
+    try {
+        // Ambil user yang sedang login
+        $user = auth()->user();
+
+        // Ambil peminjaman yang statusnya "Dipinjam" dan nama peminjam sesuai dengan user yang login
+        $peminjaman = Peminjaman::where('nama_peminjam', $user->nama)
+            ->where('status_pengembalian', 'Dipinjam')
+            ->get();
+
+        // Kirim data user dan peminjaman ke frontend
+        return Inertia::render('ProfilView', [
+            'user' => $user,
+            'peminjaman' => $peminjaman,
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'message' => 'Terjadi kesalahan pada server.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
 }
+
+
+
+
+
     public function changePassword(Request $request)
 {
     $request->validate([

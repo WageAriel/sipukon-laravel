@@ -35,9 +35,9 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
-            'isbn' => 'nullable|string|max:20', // Validasi untuk ISBN
-            'publisher' => 'nullable|string|max:255', // Validasi untuk Publisher
-            'tahun' => 'nullable|integer|digits:4', // Validasi untuk Tahun
+            'isbn' => 'nullable|string|max:20',
+            'publisher' => 'nullable|string|max:255',
+            'tahun' => 'nullable|integer|digits:4',
             'cover_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:10240'
         ]);
 
@@ -65,14 +65,14 @@ class BookController extends Controller
 
 public function update(Request $request, $id)
 {
-    $book = Book::findOrFail($id); // Mengambil model Book berdasarkan ID
+    $book = Book::findOrFail($id); 
 
     $validated = $request->validate([
         'title' => 'required|string|max:255',
         'author' => 'required|string|max:255',
-        'isbn' => 'nullable|string|max:20', // Validasi untuk ISBN
-        'publisher' => 'nullable|string|max:255', // Validasi untuk Publisher
-        'tahun' => 'nullable|integer|digits:4', // Validasi untuk Tahun
+        'isbn' => 'nullable|string|max:20',
+        'publisher' => 'nullable|string|max:255',
+        'tahun' => 'nullable|integer|digits:4', 
         'cover_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:10240'
     ]);
 
@@ -90,7 +90,7 @@ public function update(Request $request, $id)
         $dataToUpdate['cover_image'] = $fileName;
     }
 
-    $book->update($dataToUpdate); // Update data buku
+    $book->update($dataToUpdate);
 
     return redirect()->route('buku');
 }

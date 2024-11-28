@@ -6,6 +6,7 @@ import FormControl from "@/Components/FormControl.vue";
 import BaseButton from "@/Components/BaseButton.vue";
 import FormFilePicker from "@/Components/FormFilePicker.vue";
 import CardBox from "../CardBox.vue";
+import Swal from "sweetalert2";
 
 const props = defineProps({
     item: Object,
@@ -47,9 +48,23 @@ const submit = () => {
         forceFormData: true,
         onSuccess: () => {
             emit("close");
+            Swal.fire({
+                title: "Berhasil!",
+                text: "Identitas Buku berhasil diperbarui.",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+            }).then(() => {
+                emit("close"); // Tutup modal setelah notifikasi sukses
+            });
         },
         onError: (errors) => {
-            console.log(errors);
+            Swal.fire({
+                title: "Gagal!",
+                text: "Terjadi kesalahan saat memperbarui Buku.",
+                icon: "error",
+                confirmButtonColor: "#d33",
+            });
+            console.log(errors); // Debug jika diperlukan
         },
     });
 };

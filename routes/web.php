@@ -7,6 +7,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\DendaController;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,9 @@ use Illuminate\Support\Facades\Auth;
 
 
 // Halaman login
+
+Route::post('/denda/{id}/bayar', [DendaController::class, 'bayar'])->name('denda.bayar');
+
 
 
 
@@ -77,11 +81,12 @@ Route::get('/library',
 Route::post('/lending', [PeminjamanController::class, 'store']); // Menyimpan peminjaman
 
 Route::get('/lending', function (Request $request) {
-    logger('Route accessed: lending');
     return Inertia::render('FormPeminjaman', [
-        'judul' => $request->query('judul', ''),
+        'judul' => $request->query('judul', ''), // Ambil judul dari query
     ]);
 })->name('lending');
+
+
 
 Route::get('/about', function () {
     return Inertia::render('AboutPage'); // Replace 'AboutView' with the actual Vue component

@@ -16,8 +16,8 @@ class BookFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'author' => $this->faker->name(),
-            'isbn' => $this->faker->isbn13(), // Menambahkan ISBN dengan data acak
-            'publisher' => $this->faker->company(), // Menambahkan Publisher
+            'isbn' => $this->faker->isbn13(),
+            'publisher' => $this->faker->company(),
             'tahun' => $this->faker->year(),
             'cover_image' => UploadedFile::fake()->image('cover.jpg')->store('book_covers', 'public'),
         ];

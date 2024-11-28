@@ -84,7 +84,12 @@ const closeModal = () => {
 
 // Redirect to lending form
 const redirectToForm = (title) => {
-    showModal.value = false; // Tutup modal jika dibuka
-    Inertia.visit('/lending', { data: { judul: title } });
+    showModal.value = false;
+    Inertia.visit('/lending', {
+        method: 'get', // Pastikan menggunakan metode GET
+        data: { judul: title }, // Kirim query parameter
+    });
 };
+
+
 </script>

@@ -5,6 +5,7 @@ import FormField from "@/Components/FormField.vue";
 import FormControl from "@/Components/FormControl.vue";
 import BaseButton from "@/Components/BaseButton.vue";
 import { mdiAccount } from "@mdi/js";
+import Swal from "sweetalert2";
 
 const props = defineProps({
     item: Object,
@@ -35,9 +36,23 @@ const submit = () => {
         forceFormData: true,
         onSuccess: () => {
             emit("close");
+            Swal.fire({
+                title: "Berhasil!",
+                text: "Identitas Prodi berhasil diperbarui.",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+            }).then(() => {
+                emit("close"); // Tutup modal setelah notifikasi sukses
+            });
         },
         onError: (errors) => {
-            console.log(errors);
+            Swal.fire({
+                title: "Gagal!",
+                text: "Terjadi kesalahan saat memperbarui Prodi.",
+                icon: "error",
+                confirmButtonColor: "#d33",
+            });
+            console.log(errors); // Debug jika diperlukan
         },
     });
 };

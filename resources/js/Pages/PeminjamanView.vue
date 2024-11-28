@@ -10,6 +10,7 @@ import CardBox from '@/components/CardBox.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
 import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue'
+import EditStatus from '@/Components/Peminjaman/EditModal.vue'
 
 const props = defineProps({
     data: {
@@ -17,6 +18,20 @@ const props = defineProps({
         required: true,
     },
 });
+
+// State untuk modal
+const showModal = ref(false);
+const currentItem = ref(null);
+
+const openModal = (item) => {
+    currentItem.value = item;
+    showModal.value = true;
+};
+
+const closeModal = () => {
+    currentItem.value = null;
+    showModal.value = false;
+};
 
 const form = useForm({});
 
@@ -76,6 +91,9 @@ const confirmReturn = async (id) => {
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Peminjam</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Peminjaman</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pengembalian</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Metode</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Alamat</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                 </tr>
             </thead>
@@ -85,14 +103,23 @@ const confirmReturn = async (id) => {
                     <td class="px-6 py-4 text-center">{{ item.nama_peminjam }}</td>
                     <td class="px-6 py-4 text-center">{{ item.tanggal_peminjaman }}</td>
                     <td class="px-6 py-4 text-center">{{ item.tanggal_pengembalian }}</td>
+                    <td class="px-6 py-4 text-center">{{ item.metode_pengambilan }}</td>
+                    <td class="px-6 py-4 text-center">{{ item.alamat}}</td>
+                    <td class="px-6 py-4 text-center">{{ item.status_pengembalian }}</td>
                     <td class="px-6 py-4 text-center">
-                        <BaseButton :icon="mdiDelete" color="danger" @click="confirmReturn(item.id)" />
+                        <BaseButton :icon="mdiPencil" color="warning"
+                        @click="openModal(item)" />
                     </td>
                 </tr>
             </tbody>
         </table>
     </CardBox>
 </SectionMain>
+<EditStatus
+            :item="currentItem"
+            :show="showModal"
+            @close="closeModal"
+        />
     </LayoutAuthenticated>
     
 </template>

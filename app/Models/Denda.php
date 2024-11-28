@@ -14,5 +14,6 @@ class Denda extends Model
     protected $fillable = [
         'denda',
         'nama_peminjam',
+        'status_denda',
     ];
 }
