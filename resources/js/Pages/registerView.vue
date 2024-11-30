@@ -18,8 +18,12 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    fakultas: {
+        type: Array,
+        required: true,
+    },
 });
-const prodiOptions = computed(() => props.prodi);
+// const prodiOptions = computed(() => props.prodi);
 
 const selectOptions = [
     { label: "Admin", value: "admin" },
@@ -32,7 +36,14 @@ const form = useForm({
     password: "",
     password_confirmation: "",
     nama: "",
+    fakultas: "",
     prodi: '',
+});
+
+const fakultasOptions = computed(() => props.fakultas);
+const prodiOptions = computed(() => {
+    // Filter prodi berdasarkan fakultas yang dipilih
+    return props.prodi.filter((item) => item.nama_fakultas === form.fakultas);
 });
 
 const errors = ref({});
@@ -101,6 +112,19 @@ const reset = () => {
             <p v-if="errors.email" class="text-red-500 text-sm mt-0">
                 {{ errors.email }}
             </p>
+        </FormField>
+        <FormField label="Fakultas">
+            <select
+                v-model="form.fakultas"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500"
+                required
+            >
+                <option value="" disabled>-- Pilih Fakultas --</option>
+                <option v-for="item in fakultasOptions" :key="item.id" :value="item.nama_fakultas">
+                    {{ item.nama_fakultas }}
+                </option>
+            </select>
+            <p v-if="errors.fakultas" class="text-red-500 text-sm">{{ errors.fakultas }}</p>
         </FormField>
 
         <FormField label="Program Studi">

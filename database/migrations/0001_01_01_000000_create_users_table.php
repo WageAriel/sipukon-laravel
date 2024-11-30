@@ -11,11 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('fakultas', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_fakultas')->unique();
+            $table->timestamps();
+        });
+
         Schema::create('prodi', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_fakultas');
             $table->string('nama_prodi')->unique();
             $table->timestamps();
         });
+        
         
 
         Schema::create('users', function (Blueprint $table) {
@@ -26,6 +34,7 @@ return new class extends Migration
             $table->string('role')->default('user');
             $table->string('nama')->nullable();
             $table->string('status')->default('Tidak meminjam');
+            $table->string('fakultas')->nullable();
             $table->string('prodi')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -70,6 +79,7 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('mahasiswa');
         Schema::dropIfExists('prodi');
+        Schema::dropIfExists('fakultas');
         Schema::dropIfExists('buku');
     }
 };

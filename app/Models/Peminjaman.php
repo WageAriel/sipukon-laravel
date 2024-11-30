@@ -18,4 +18,5 @@ class Peminjaman extends Model
         'alamat',
         'status_pengembalian',
     ];
+    
 }

@@ -105,21 +105,29 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/books', function () {
     return Inertia::render('BukuView');
 })->name('books');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/forms', function () {
-    return Inertia::render('FormsView');
-})->name('forms');
+Route::middleware(['auth:sanctum', 'verified'])->get('/fakultas', function () {
+    return Inertia::render('FakultasView');
+})->name('fakultas');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/ui', function () {
-    return Inertia::render('UiView');
-})->name('ui');
+Route::middleware(['auth:sanctum', 'verified'])->get('/denda', function () {
+    return Inertia::render('DendaView');
+})->name('denda');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/responsive', function () {
-    return Inertia::render('ResponsiveView');
-})->name('responsive');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/forms', function () {
+//     return Inertia::render('FormsView');
+// })->name('forms');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/user', function () {
-    return Inertia::render('ResponsiveView');
-})->name('responsive');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/ui', function () {
+//     return Inertia::render('UiView');
+// })->name('ui');
+
+// Route::middleware(['auth:sanctum', 'verified'])->get('/responsive', function () {
+//     return Inertia::render('ResponsiveView');
+// })->name('responsive');
+
+// Route::middleware(['auth:sanctum', 'verified'])->get('/user', function () {
+//     return Inertia::render('ResponsiveView');
+// })->name('responsive');
 
 // Halaman landing
 
@@ -139,4 +147,6 @@ require __DIR__.'/BookRoute.php';
 require __DIR__.'/UserRoute.php';
 require __DIR__.'/ProdiRoute.php';
 require __DIR__.'/PeminjamanRoute.php';
+require __DIR__.'/FakultasRoute.php';
+require __DIR__.'/DendaRoute.php';
 

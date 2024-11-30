@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use App\Models\Peminjaman;
+use App\Models\Fakultas;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -29,20 +30,38 @@ class HandleInertiaRequests extends Middleware
      * @return array<string, mixed>
      */
     public function share(Request $request): array
-    {
-        $user = auth()->user();
+{
+    // Periksa apakah pengguna sudah login
+    $user = auth()->user();
+    $fakultas = Fakultas::all();
 
-        // Ambil peminjaman yang statusnya "Dipinjam" dan nama peminjam sesuai dengan user yang login
-        $peminjaman = Peminjaman::where('nama_peminjam', $user->nama)
-            ->where('status_pengembalian', 'Dipinjam')
-            ->get();
-
+    // Jika pengguna belum login, kirimkan respons array dengan informasi status atau kesalahan
+    if (!$user) {
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
-                'peminjaman' => $peminjaman,
+                'user' => null,  // Pengguna null jika belum login
+                'peminjaman' => [],
+                'error' => 'User is not logged in',  // Pesan kesalahan atau status
             ],
+            'fakultass' => $fakultas,
         ];
     }
+
+    // Ambil peminjaman yang statusnya "Dipinjam" dan nama peminjam sesuai dengan user yang login
+    $peminjaman = Peminjaman::where('nama_peminjam', $user->nama)
+        ->where('status_pengembalian', 'Dipinjam')
+        ->get();
+
+    return [
+        ...parent::share($request),
+        'auth' => [
+            'user' => $user,
+            'peminjaman' => $peminjaman,
+        ],
+        'fakultass' => $fakultas,
+    ];
+}
+
+
 }

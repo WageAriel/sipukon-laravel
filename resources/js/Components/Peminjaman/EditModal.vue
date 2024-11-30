@@ -183,9 +183,6 @@ const submit = async () => {
                                             Dikembalikan
                                         </option>
                                         <option value="Diantar">Diantar</option>
-                                        <option value="Dikembalikan Terlambat">
-                                            Dikembalikan Terlambat
-                                        </option>
                                     </select>
                                 </FormField>
                             </div>

@@ -26,6 +26,12 @@
                             Role
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Fakultas
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Prodi
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500  uppercase tracking-wider">
                             Actions
                         </th>
                     </tr>
@@ -36,12 +42,13 @@
                         <td class="px-6 py-4">{{ item.email }}</td>
                         <td class="px-6 py-4">{{ item.nama }}</td>
                         <td class="px-6 py-4">{{ item.role }}</td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4">{{ item.fakultas }}</td>
+                        <td class="px-6 py-4">{{ item.prodi }}</td>
+                        <td class="px-6 py-4 flex justify-center items-center space-x-4">
                             <BaseButton
                                 :icon="mdiPencil"
                                 color="warning"
                                 @click="editData(item)"
-                                class="mx-4"
                             />
                             <BaseButton
                                 :icon="mdiDelete"

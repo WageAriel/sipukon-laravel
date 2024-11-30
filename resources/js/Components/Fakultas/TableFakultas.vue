@@ -5,7 +5,7 @@ import CardBox from "@/Components/CardBox.vue";
 import BaseButton from "@/Components/BaseButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
-import EditModal from "@/Components/Prodi/EditModal.vue";
+import EditModal from "@/Components/Fakultas/EditModal.vue";
 
 const props = defineProps({
     data: {
@@ -30,7 +30,7 @@ const confirmDelete = (id) => {
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            form.delete(route("prodi.destroy", id), {
+            form.delete(route("fakultas.destroy", id), {
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: () => {
@@ -77,11 +77,6 @@ const closeEditModal = () => {
                     <th
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                        Nama Prodi
-                    </th>
-                    <th
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
                         Aksi
                     </th>
                 </tr>
@@ -90,9 +85,6 @@ const closeEditModal = () => {
                 <tr v-for="item in data" :key="item.id">
                     <td class="px-6 py-4">
                         {{ item.nama_fakultas }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ item.nama_prodi }}
                     </td>
                     <td class="px-6 py-4">
                         <BaseButton

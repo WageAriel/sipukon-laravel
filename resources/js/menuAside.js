@@ -42,6 +42,16 @@ export default [
     icon: mdiViewList
   },
   {
+    route: 'fakultas',
+    label: 'Fakultas',
+    icon: mdiViewList
+  },
+  {
+    route: 'denda',
+    label: 'Denda',
+    icon: mdiViewList
+  },
+  {
     href: 'https://github.com/justboil/admin-one-vue-tailwind',
     label: 'GitHub',
     icon: mdiGithub,

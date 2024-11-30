@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prodi;
+use App\Models\Fakultas;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -16,19 +17,27 @@ class ProdiController extends Controller
     }
 
     public function index()
-    {
-        $prodis = Prodi::orderBy('nama_prodi')->get();
-        return Inertia::render('ProdiView', ['data' => $prodis]);
-    }
+{
+    $prodis = Prodi::orderBy('nama_prodi')->get();
+    $fakultass = Fakultas::orderBy('nama_fakultas')->get();  // Ambil fakultas dengan ID
+
+    return Inertia::render('ProdiView', [
+        'data' => $prodis,
+        'fakultass' => $fakultass  // Mengirimkan daftar fakultas beserta ID
+    ]);
+}
+
 
     public function store(Request $request)
     {
         try {
             $validated = $request->validate([
+                'nama_fakultas' => 'required|exists:fakultas,nama_fakultas',  // Memastikan id fakultas valid
                 'nama_prodi' => 'required|string|max:255',
             ]);
 
             Prodi::create([
+                'nama_fakultas' => $validated['nama_fakultas'],  
                 'nama_prodi' => $validated['nama_prodi'],
             ]);
 
@@ -41,6 +50,7 @@ class ProdiController extends Controller
     public function update(Request $request, Prodi $id)
     {
         $validated = $request->validate([
+            'nama_fakultas' => 'nullable|string|max:255|exists:fakultas,nama_fakultas',
             'nama_prodi' => 'nullable|string|max:255',
         ]);
 
@@ -48,6 +58,9 @@ class ProdiController extends Controller
 
         if ($request->filled('nama_prodi')) {
             $dataToUpdate['nama_prodi'] = $validated['nama_prodi'];
+        }
+        if ($request->filled('nama_fakultas')) {
+            $dataToUpdate['nama_fakultas'] = $validated['nama_fakultas'];
         }
 
         $id->update($dataToUpdate);

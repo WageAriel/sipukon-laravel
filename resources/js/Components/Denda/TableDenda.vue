@@ -5,7 +5,7 @@ import CardBox from "@/Components/CardBox.vue";
 import BaseButton from "@/Components/BaseButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
-import EditModal from "@/Components/Prodi/EditModal.vue";
+import EditModal from "@/Components/Denda/EditModal.vue";
 
 const props = defineProps({
     data: {
@@ -72,12 +72,17 @@ const closeEditModal = () => {
                     <th
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                        Nama Fakultas
+                        Denda
                     </th>
                     <th
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                        Nama Prodi
+                        Nama Peminjam
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                        Status Denda
                     </th>
                     <th
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -89,10 +94,13 @@ const closeEditModal = () => {
             <tbody class="bg-dark divide-y">
                 <tr v-for="item in data" :key="item.id">
                     <td class="px-6 py-4">
-                        {{ item.nama_fakultas }}
+                        {{ item.denda }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ item.nama_prodi }}
+                        {{ item.nama_peminjam }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ item.status_denda}}
                     </td>
                     <td class="px-6 py-4">
                         <BaseButton

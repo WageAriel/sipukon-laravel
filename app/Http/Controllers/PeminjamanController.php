@@ -56,6 +56,7 @@ class PeminjamanController extends Controller
 
     $tanggalPeminjaman = Carbon::now();
     $tanggalPengembalian = $tanggalPeminjaman->copy()->addDays(7);
+    $status = $request->metode_pengambilan === 'delivery' ? 'Disiapkan' : 'Dipinjam';
 
         // Buat peminjaman baru
         Peminjaman::create([
@@ -65,7 +66,7 @@ class PeminjamanController extends Controller
             'tanggal_pengembalian' => $tanggalPengembalian,
             'metode_pengambilan' => $request->metode_pengambilan,
             'alamat' => $request->alamat,
-            'status_pengembalian' => 'Dipinjam',
+            'status_pengembalian' => $status,
         ]);
 
         $book->increment('banyaknya_dipinjam');
@@ -122,6 +123,8 @@ public function update(Request $request, $id)
     $request->validate([
         'status_pengembalian' => 'required|string',
     ]);
+    
+    $user = Auth::user();
 
     $peminjaman = Peminjaman::findOrFail($id);
     $statusBaru = $request->status_pengembalian;
@@ -150,15 +153,26 @@ public function update(Request $request, $id)
             //     'denda' => $denda
             // ], 422);
         }
-    }
+        
 
+    
+
+    }
     $peminjaman->status_pengembalian = $request->status_pengembalian;
     $peminjaman->save();
+    $peminjamanAktif = Peminjaman::where('nama_peminjam', $user->nama)
+                                    ->where('status_pengembalian', '!=', 'Dikembalikan')
+                                    ->exists();
+
+        // Jika tidak ada peminjaman aktif lainnya, update status user menjadi 'Tidak meminjam'
+        if (!$peminjamanAktif) {
+            $user->status = 'Tidak meminjam';
+            $user->save();
+        }
+    
 
     // return response()->json(['message' => 'Status berhasil diperbarui!'], 200);
 }
 
 
 }
-
-

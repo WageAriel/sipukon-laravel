@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Prodi;
+use App\Models\Fakultas;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,10 +12,15 @@ class RegisterController extends Controller
 {
     public function showRegisterForm()
     {
-        $prodi = Prodi::all();
-        return Inertia::render('registerView', [
-            'prodi' => $prodi
-        ]);
+        $fakultas = Fakultas::all();
+
+    // Ambil semua prodi
+    $prodi = Prodi::all();
+
+    return Inertia::render('registerView', [
+        'fakultas' => $fakultas,
+        'prodi' => $prodi
+    ]);
     }
     public function store(Request $request)
     {
@@ -23,6 +29,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email', // Set email sebagai wajib
             'password' => 'required|string|min:8|confirmed', // Konfirmasi password
             'nama' => 'required|string|max:255',
+            'fakultas' => 'required|string|exists:fakultas,nama_fakultas',
             'prodi' => 'required|string|exists:prodi,nama_prodi',
         ]);
     
@@ -33,6 +40,7 @@ class RegisterController extends Controller
             'password' => bcrypt($validated['password']),
             'role' => 'user', // Set role default sebagai 'user'
             'nama' => $validated['nama'],
+            'fakultas' => $validated['fakultas'],
             'prodi' => $validated['prodi']
         ]);
     

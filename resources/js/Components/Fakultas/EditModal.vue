@@ -10,29 +10,27 @@ import Swal from "sweetalert2";
 const props = defineProps({
     item: Object,
     show: Boolean,
-    fakultass: Array,
 });
 
 const emit = defineEmits(["close"]);
 
 const form = useForm({
     _method: "PUT", // Add this line to force PUT method
-    nama_prodi: "",
+    nama_fakultas: "",
 });
 
 watch(
     () => props.item,
     (newItem) => {
         if (newItem) {
-            form.nama_prodi = newItem.nama_prodi;
-            form.nama_fakultas = newItem.nama_fakultas;  // Pastikan nama_fakultas terisi dengan benar
+            form.nama_fakultas = newItem.nama_fakultas;
         }
     },
     { immediate: true }
 );
 
 const submit = () => {
-    form.post(route("prodi.update", props.item.id), {
+    form.post(route("fakultas.update", props.item.id), {
         preserveState: true,
         preserveScroll: true,
         forceFormData: true,
@@ -40,7 +38,7 @@ const submit = () => {
             emit("close");
             Swal.fire({
                 title: "Berhasil!",
-                text: "Identitas Prodi berhasil diperbarui.",
+                text: "Identitas fakultas berhasil diperbarui.",
                 icon: "success",
                 confirmButtonColor: "#3085d6",
             }).then(() => {
@@ -50,7 +48,7 @@ const submit = () => {
         onError: (errors) => {
             Swal.fire({
                 title: "Gagal!",
-                text: "Terjadi kesalahan saat memperbarui Prodi.",
+                text: "Terjadi kesalahan saat memperbarui fakultas.",
                 icon: "error",
                 confirmButtonColor: "#d33",
             });
@@ -84,21 +82,12 @@ const submit = () => {
                             <h3
                                 class="text-lg leading-6 font-medium text-gray-900"
                             >
-                                Edit Prodi
+                                Edit fakultas
                             </h3>
                             <div class="mt-2">
-                                <FormField label="Nama Fakultas">
-    <select v-model="form.nama_fakultas" class="form-select mt-1 block w-full">
-        <option value="" disabled>Pilih Fakultas</option>
-        <!-- Loop Fakultas berdasarkan nama_fakultas -->
-        <option v-for="fakultas in fakultass" :key="fakultas.id" :value="fakultas.nama_fakultas">
-            {{ fakultas.nama_fakultas }}
-        </option>
-    </select>
-</FormField>
-                                <FormField label="Nama Prodi">
+                                <FormField label="Nama fakultas">
                                     <FormControl
-                                        v-model="form.nama_prodi"
+                                        v-model="form.nama_fakultas"
                                         :icon="mdiAccount"
                                     />
                                 </FormField>

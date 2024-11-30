@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             // MahasiswaSeeder::class,
             UserSeeder::class,
             BookSeeder::class,
+            FakultasSeeder::class
         ]);
     }
 }
