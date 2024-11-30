@@ -129,16 +129,18 @@
             const user = ref(props.auth.user);
             const showChangePassword = ref(false); // State untuk menampilkan form ganti password
             const showDeleteModal = ref(false); // State untuk menampilkan modal konfirmasi
-            const peminjaman = ref(props.peminjaman || []);
+            const peminjaman = ref(props.auth.peminjaman || []);
     console.log('Data peminjaman diterima:', peminjaman.value);
 
     const tenggat = computed(() => {
-    if (peminjaman.value.length > 0) {
-        const activeLoan = peminjaman.value.find((loan) => loan.status_pengembalian === 'Dipinjam');
-        return activeLoan ? activeLoan.tanggal_pengembalian : 'Belum Ada Tenggat';
-    }
-    return 'Belum Ada Tenggat';
-});
+        console.log('Data peminjaman di ProfileView:', peminjaman.value);
+        if (peminjaman.value.length > 0) {
+            const activeLoan = peminjaman.value.find((loan) => loan.status_pengembalian === 'Dipinjam');
+            console.log('Active Loan:', activeLoan); // Log active loan
+            return activeLoan ? activeLoan.tanggal_pengembalian : 'Belum Ada Tenggat';
+        }
+        return 'Belum Ada Tenggat';
+    });
 
 
 

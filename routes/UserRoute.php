@@ -18,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 // routes/web.php
-Route::get('/profile', [UserController::class, 'showProfile'])->middleware('auth')->name('profile.show');
+Route::middleware([])->get('/profiles', [UserController::class, 'showprofile'])->name('profiles');
 
 
 

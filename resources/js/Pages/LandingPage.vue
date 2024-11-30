@@ -142,7 +142,7 @@ import { ref, onBeforeMount, computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import { BuildingLibraryIcon, PaperAirplaneIcon, MapPinIcon, ArrowLeftIcon } from '@heroicons/vue/24/solid';
-import HeaderNav from '@/ComponentLanding/HeaderNav.vue'
+import HeaderNav from '@/Pages/HeaderNav.vue'
 import FooterView from '@/ComponentLanding/FooterView.vue'
 
 const logout = async () => {

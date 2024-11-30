@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue'
-import { useMainStore } from '@/stores/main'
+// import { useMainStore } from '@/stores/main'
 import { Head } from '@inertiajs/vue3'
 import {
   mdiAccountMultiple,
@@ -38,9 +38,10 @@ const fillChartData = () => {
 
 const props = defineProps({
     user: { type: Array, default: () => [] },
-    buku: { type: Array, default: () => [] },
+    books: { type: Array, default: () => [] },
     prodi: { type: Array, default: () => [] },
 });
+
 
 onMounted(() => {
   fillChartData()
@@ -69,7 +70,7 @@ onMounted(() => {
           trend-type="up"
           color="text-emerald-500"
           :icon="mdiAccountMultiple"
-          :number="user?.length ||2"
+          :number="user?.length ||0"
           label="Users"
         />
         <CardBoxWidget
@@ -77,7 +78,7 @@ onMounted(() => {
           trend-type="up"
           color="text-emerald-500"
           :icon="mdiBookAlphabet"
-          :number="buku?.length ||20"
+          :number="books?.length ||0"
           label="Books"
         />
         <CardBoxWidget
@@ -85,7 +86,7 @@ onMounted(() => {
           trend-type="alert"
           color="text-blue-500"
           :icon="mdiSchool"
-          :number="prodi?.length ||3"
+          :number="prodi?.length ||0"
           label="Program Studi"
         />
       </div>

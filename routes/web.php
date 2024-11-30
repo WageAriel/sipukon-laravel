@@ -8,6 +8,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\DendaController;
+use App\Http\Controllers\HomeViewController;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -54,13 +55,8 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login']);
 
 // Halaman dashboard
-Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    $user = Auth::user();
-    if ($user && $user->role !== 'admin') {
-        return redirect()->route('landing')->with('error', 'Unauthorized access.');
-    }
-    return Inertia::render('HomeView');
-})->name('dashboard');
+Route::middleware(['auth', 'verified'])->get('/dashboard', [HomeViewController::class, 'index'])->name('dashboard');
+
 Route::middleware(['auth', 'verified'])->get('/dashboard/user', function () {
     $user = Auth::user();
     if ($user && $user->role !== 'admin') {

@@ -9,14 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    public function showProfile()
-{
-    return Inertia::render('profileView', [
-        'auth' => [
-            'user' => Auth::user() // Mengambil data pengguna yang sedang login
-        ]
-    ]);
-}
     public function showRegisterForm()
     {
         $prodi = Prodi::all();

@@ -102,7 +102,7 @@
   </template>
   
   <script setup>
-  import HeaderNav from '@/ComponentLanding/HeaderNav.vue'
+  import HeaderNav from '@/Pages/HeaderNav.vue'
   import FooterView from '@/ComponentLanding/FooterView.vue'
   import { ref } from 'vue';
   import Swal from 'sweetalert2';

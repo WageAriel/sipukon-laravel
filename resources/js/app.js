@@ -8,6 +8,7 @@ import { ZiggyVue } from 'ziggy-js'
 import axios from 'axios'
 
 
+
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
 
 const pinia = createPinia()
@@ -18,6 +19,7 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]')
 if (csrfToken) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.getAttribute('content')
 }
+
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,

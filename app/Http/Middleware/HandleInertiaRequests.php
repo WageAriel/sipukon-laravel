@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\Peminjaman;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -29,10 +30,18 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = auth()->user();
+
+        // Ambil peminjaman yang statusnya "Dipinjam" dan nama peminjam sesuai dengan user yang login
+        $peminjaman = Peminjaman::where('nama_peminjam', $user->nama)
+            ->where('status_pengembalian', 'Dipinjam')
+            ->get();
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'peminjaman' => $peminjaman,
             ],
         ];
     }

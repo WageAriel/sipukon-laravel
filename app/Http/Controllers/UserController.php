@@ -45,7 +45,7 @@ public function showProfile()
             ->get();
 
         // Kirim data user dan peminjaman ke frontend
-        return Inertia::render('ProfilView', [
+        return response()->json([
             'user' => $user,
             'peminjaman' => $peminjaman,
         ]);
@@ -57,9 +57,29 @@ public function showProfile()
     }
 }
 
+public function showprofileindex()
+{
+    try {
+        // Ambil user yang sedang login
+        $user = auth()->user();
 
+        // Ambil peminjaman yang statusnya "Dipinjam" dan nama peminjam sesuai dengan user yang login
+        $peminjaman = Peminjaman::where('nama_peminjam', $user->nama)
+            ->where('status_pengembalian', 'Dipinjam')
+            ->get();
 
-
+        // Kirim data user dan peminjaman ke frontend
+        return response()->json( [
+            'user' => $user,
+            'peminjaman' => $peminjaman,
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'message' => 'Terjadi kesalahan pada server.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
 
     public function changePassword(Request $request)
 {

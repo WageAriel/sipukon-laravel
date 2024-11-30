@@ -34,7 +34,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import HeaderNav from '@/ComponentLanding/HeaderNav.vue';
+import HeaderNav from '@/Pages/HeaderNav.vue';
 import FooterView from '@/ComponentLanding/FooterView.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 import BookCard from './BookCard.vue';
