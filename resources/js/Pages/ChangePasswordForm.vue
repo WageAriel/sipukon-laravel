@@ -37,35 +37,29 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 
-export default {
-    setup(props, { emit }) {
-        const oldPassword = ref('');
-        const newPassword = ref('');
+// Mendeklarasikan state dengan ref
+const oldPassword = ref('');
+const newPassword = ref('');
 
-        const submit = () => {
-            Inertia.post('/change-password', {
-                old_password: oldPassword.value,
-                new_password: newPassword.value,
-            }, {
-                onSuccess: () => {
-                    emit('close');
-                    // Add any additional success logic here, e.g., show a notification
-                }
-            });
-        };
-
-        return {
-            oldPassword,
-            newPassword,
-            submit,
-        };
-    }
+// Fungsi untuk submit form ganti password
+const submit = () => {
+    Inertia.post('/change-password', {
+        old_password: oldPassword.value,
+        new_password: newPassword.value,
+    }, {
+        onSuccess: () => {
+            // Emit event untuk menutup form setelah sukses
+            emit('close');
+            // Tambahkan logika sukses lainnya, misalnya menampilkan notifikasi
+        }
+    });
 };
 </script>
+
 
 <style scoped>
 /* Tambahkan styling tambahan di sini jika diperlukan */

@@ -25,8 +25,29 @@
     <main class="flex z-0 flex-col self-center mt-14 max-w-full w-[1272px] max-md:mt-10">
       <section class="grid-container">
         <!-- Gunakan filteredBooks -->
-        <BookCard v-for="item in filteredBooks" :key="item.id" :data="item" />
+        <BookCard v-for="item in paginatedBooks" :key="item.id" :data="item" />
       </section>
+      <!-- Pagination Controls -->
+<div class="flex justify-center mt-6">
+  <button
+    :disabled="currentPage === 1"
+    @click="prevPage"
+    class="px-4 py-2 bg-sky-500 text-white rounded-md mr-2"
+  >
+    Prev
+  </button>
+  <span class="px-4 py-2">
+    Page {{ currentPage }} of {{ totalPages }}
+  </span>
+  <button
+    :disabled="currentPage === totalPages"
+    @click="nextPage"
+    class="px-4 py-2 bg-sky-500 text-white rounded-md ml-2"
+  >
+    Next
+  </button>
+</div>
+
     </main>
   </div>
   <FooterView />
@@ -49,6 +70,28 @@ const props = defineProps({
 
 const searchQuery = ref('');
 const books = props.data; // Gunakan props untuk mendefinisikan data
+const currentPage = ref(1);
+const itemsPerPage = 20;
+
+const paginatedBooks = computed(() => {
+  const startIndex = (currentPage.value - 1) * itemsPerPage;
+  return filteredBooks.value.slice(startIndex, startIndex + itemsPerPage);
+});
+
+const totalPages = computed(() => Math.ceil(filteredBooks.value.length / itemsPerPage));
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+// Fungsi untuk pindah ke halaman berikutnya
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
 
 // Computed untuk menyaring buku berdasarkan pencarian
 const filteredBooks = computed(() => {

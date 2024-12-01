@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
+
 Route::get('/data-buku', [BookController::class, 'getAllBooks']);
 
 require __DIR__ . '/auth.php';

@@ -90,15 +90,15 @@
         <div class="text-[#00afef] text-[23px] font-bold uppercase leading-7 tracking-[4.60px]">Rekomendasi</div>
         <div class="text-[#191825] text-[44px] font-bold leading-[52.80px]">Rekomendasi Buku</div>
     </div>
-    <div class="justify-start items-start gap-8 flex">
-        <button @click="showPrevious" class="w-[100px] h-[100px] relative">
-            <div class="w-[100px] h-[100px] left-0 top-0 absolute bg-white rounded-[100px] border border-[#191825]/10"></div>
-            <ArrowLeftIcon class="w-6 h-6 left-[38px] top-[38px] absolute"></ArrowLeftIcon>
-        </button>
-        <button @click="showNext" class="w-[100px] h-[100px] relative">
-            <div class="w-[100px] h-[100px] left-[100px] top-0 absolute origin-left rotate-180 bg-[#00afef] rounded-[100px]"></div>
-            <ArrowLeftIcon class="w-6 h-6 left-[62px] top-[38px] text-white absolute origin-left rotate-180"/>
-        </button>
+    <div class="justify-start items-start gap-8 flex mt-6">
+      <button @click="showPrevious" class="w-[100px] h-[100px] relative" :disabled="currentPage === 0">
+        <div class="w-[100px] h-[100px] left-0 top-0 absolute bg-white rounded-[100px] border border-[#191825]/10"></div>
+        <ArrowLeftIcon class="w-6 h-6 left-[38px] top-[38px] absolute"></ArrowLeftIcon>
+      </button>
+      <button @click="showNext" class="w-[100px] h-[100px] relative" :disabled="currentPage === totalPages - 1">
+        <div class="w-[100px] h-[100px] left-[100px] top-0 absolute origin-left rotate-180 bg-[#00afef] rounded-[100px]"></div>
+        <ArrowLeftIcon class="w-6 h-6 left-[62px] top-[38px] text-white absolute origin-left rotate-180"/>
+      </button>
     </div>
 </div>
 <div class="w-full max-w-screen-lg mx-auto">
@@ -112,23 +112,33 @@
         :key="index"
         class="w-[350px] h-[575px] shadow-lg flex flex-col rounded-[32px] overflow-hidden border border-gray-300"
       >
-        <div class="w-full h-[376px] bg-[#99dbf7]"></div>
-        <div class="w-full h-[350px] px-8 pt-6 pb-4 bg-white flex flex-col gap-4 border-t border-gray-300">
+      <div class="relative rounded-t-lg overflow-hidden bg-[#99dbf7]">
+          <!-- Memeriksa apakah cover_image ada -->
+          <img
+            v-if="book.cover_image"
+            :src="`/storage/book_covers/${book.cover_image}`"
+            alt="Book Cover"
+            class="w-full h-64 object-contain"
+          />
+          <div v-else class="w-full h-64 bg-gray-200 flex items-center justify-center">
+            <span class="text-gray-500">No Cover</span>
+          </div>
+        </div>
+        <div class="w-full h-[300px] px-8 pt-6 pb-4 bg-white flex flex-col gap-4 border-t border-gray-300">
           <div class="flex flex-col gap-2">
             <div class="text-[#191825] text-[23px] font-bold leading-7">
-              {{ book.judul }}
+              {{ book.title }}
             </div>
             <div class="text-[#191825]/75 text-lg font-normal leading-[28.80px] max-w-[300px]">
-              {{ book.deskripsi }}
+              {{ book.author }}
             </div>
           </div>
           <div class="flex items-center gap-2 mt-auto">
             <div class="text-[#ff5722] text-[23px] font-bold leading-7">
-              {{ book.rating }}
+              {{ book.banyaknya_dipinjam }}
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#ff5722]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
+            <BookOpenIcon class="w-6 h-6 text-[#ff5722]">
+            </BookOpenIcon>
           </div>
         </div>
       </div>
@@ -141,7 +151,7 @@
 import { ref, onBeforeMount, computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
-import { BuildingLibraryIcon, PaperAirplaneIcon, MapPinIcon, ArrowLeftIcon } from '@heroicons/vue/24/solid';
+import { BuildingLibraryIcon, PaperAirplaneIcon, MapPinIcon, ArrowLeftIcon, BookOpenIcon } from '@heroicons/vue/24/solid';
 import HeaderNav from '@/Pages/HeaderNav.vue'
 import FooterView from '@/ComponentLanding/FooterView.vue'
 
@@ -162,34 +172,41 @@ const logout = async () => {
 };
 
 
-const books = ref([
-  { judul: 'Manajemen Peminjaman', deskripsi: 'Sistem yang memudahkan Anda untuk meminjam buku secara online dengan cepat dan praktis.', rating: 4.8 },
-  { judul: 'Pengiriman Buku', deskripsi: 'Kami akan mengirimkan buku ke alamat Anda dengan aman, memastikan buku tiba dalam kondisi terbaik.', rating: 4.7 },
-  { judul: 'Sistem Rekomendasi', deskripsi: 'Menyarankan buku berdasarkan minat Anda untuk pengalaman membaca yang lebih personal.', rating: 4.9 },
-  { judul: 'Manajemen Koleksi', deskripsi: 'Membantu Anda mengelola koleksi buku dengan mudah dan efisien.', rating: 4.6 },
-  { judul: 'Penelusuran Lanjutan', deskripsi: 'Fitur pencarian lanjutan untuk menemukan buku berdasarkan berbagai kriteria.', rating: 4.5 },
-  { judul: 'Berbagi Buku', deskripsi: 'Memungkinkan Anda untuk berbagi buku dengan pengguna lain.', rating: 4.4 },
-]);
+const props = defineProps({
+  books: {
+    type: Array,
+    required: true,
+  },
+});
 
 // Indeks awal untuk buku yang akan ditampilkan
-const currentStartIndex = ref(0);
+const currentPage = ref(0);
+const itemsPerPage = 3;
 
 // Fungsi untuk menampilkan 3 buku saat ini
-const visibleBooks = computed(() => books.value.slice(currentStartIndex.value, currentStartIndex.value + 3));
+const currentStartIndex = computed(() => currentPage.value * itemsPerPage);
+
+const visibleBooks = computed(() => {
+  return props.books.slice(currentStartIndex.value, currentStartIndex.value + itemsPerPage);
+});
+
 
 // Fungsi untuk menampilkan buku berikutnya
 function showNext() {
-  if (currentStartIndex.value + 3 < books.value.length) {
-    currentStartIndex.value += 3;
+  if ((currentPage.value + 1) * itemsPerPage < props.books.length) {
+    currentPage.value++;
   }
 }
 
 // Fungsi untuk menampilkan buku sebelumnya
 function showPrevious() {
-  if (currentStartIndex.value - 3 >= 0) {
-    currentStartIndex.value -= 3;
+  if (currentPage.value > 0) {
+    currentPage.value--;
   }
 }
+
+// Menghitung jumlah halaman total
+const totalPages = computed(() => Math.ceil(props.books.length / itemsPerPage));
 </script>
 
 <style scoped>

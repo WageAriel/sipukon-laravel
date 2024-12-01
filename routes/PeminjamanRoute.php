@@ -31,8 +31,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-// Route::get('/user/peminjaman/tenggat', [PeminjamanController::class, 'getPeminjamanTenggatUser']);
-
 
 Route::get('/data-buku', [PeminjamanController::class, 'getAllPeminjaman']);
 

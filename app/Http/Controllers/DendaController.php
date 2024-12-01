@@ -24,8 +24,6 @@ class DendaController extends Controller
     public function update(Request $request, $id)
 {
     $denda = Denda::findOrFail($id);
-
-    // Validasi dan update hanya status denda
     $validated = $request->validate([
         'status_denda' => 'required|in:lunas,belum_lunas',
     ]);
@@ -34,7 +32,6 @@ class DendaController extends Controller
         'status_denda' => $validated['status_denda'],
     ]);
 
-    // return response()->json(['message' => 'Status denda berhasil diperbarui']);
 }
 
 

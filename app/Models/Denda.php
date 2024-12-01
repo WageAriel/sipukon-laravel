@@ -12,6 +12,7 @@ class Denda extends Model
     protected $table = 'denda';
 
     protected $fillable = [
+        'judul_buku',
         'denda',
         'nama_peminjam',
         'status_denda',

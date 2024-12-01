@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\PeminjamanController;
@@ -12,24 +13,6 @@ use App\Http\Controllers\HomeViewController;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
-
-// Halaman utama
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//     ]);
-// })->name('welcome');
-
-
-// Halaman login
-
-Route::post('/denda/{id}/bayar', [DendaController::class, 'bayar'])->name('denda.bayar');
-
-
-
-
-
 
 Route::get('/sign-up', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('/sign-up', [RegisterController::class, 'store'])->name('register.store');
@@ -65,41 +48,34 @@ Route::middleware(['auth', 'verified'])->get('/dashboard/user', function () {
     return Inertia::render('UserView');
 })->name('user');
 
-Route::get('/home', function () {
-    return Inertia::render('HomeView'); // Replace 'HomeView' with the actual Vue component
-})->name('home');
+// Route::get('/home', function () {
+//     return Inertia::render('HomeView');
+// })->name('home');
 
 Route::get('/library', 
     [BookController::class, 'library'])
-     // Replace 'LibraryView' with the actual Vue component
 ->name('library');
 
-Route::post('/lending', [PeminjamanController::class, 'store']); // Menyimpan peminjaman
+Route::post('/lending', [PeminjamanController::class, 'store']);
 
 Route::get('/lending', function (Request $request) {
     return Inertia::render('FormPeminjaman', [
-        'judul' => $request->query('judul', ''), // Ambil judul dari query
+        'judul' => $request->query('judul', ''),
     ]);
 })->name('lending');
 
 
 
 Route::get('/about', function () {
-    return Inertia::render('AboutPage'); // Replace 'AboutView' with the actual Vue component
+    return Inertia::render('AboutPage'); 
 })->name('about');
 
 Route::middleware([])->get('/', function () {
     return Inertia::render('LandingPage');
 })->name('landing');
 
+Route::middleware([])->get('/', [LandingController::class, 'index'])->name('landing');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/tables', function () {
-    return Inertia::render('TablesView');
-})->name('tables');
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/users', function () {
-    return Inertia::render('UserView');
-})->name('users');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/books', function () {
     return Inertia::render('BukuView');
@@ -113,25 +89,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/denda', function () {
     return Inertia::render('DendaView');
 })->name('denda');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/forms', function () {
-//     return Inertia::render('FormsView');
-// })->name('forms');
-
-// Route::middleware(['auth:sanctum', 'verified'])->get('/ui', function () {
-//     return Inertia::render('UiView');
-// })->name('ui');
-
-// Route::middleware(['auth:sanctum', 'verified'])->get('/responsive', function () {
-//     return Inertia::render('ResponsiveView');
-// })->name('responsive');
-
-// Route::middleware(['auth:sanctum', 'verified'])->get('/user', function () {
-//     return Inertia::render('ResponsiveView');
-// })->name('responsive');
-
-// Halaman landing
-
-// Profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

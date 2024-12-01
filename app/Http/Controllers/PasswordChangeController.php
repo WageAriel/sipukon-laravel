@@ -11,7 +11,7 @@ class PasswordChangeController extends Controller
 {
     public function showChangePasswordForm()
 {
-    return Inertia::render('ChangePasswordForm'); // Tampilkan komponen ChangePasswordForm
+    return Inertia::render('ChangePasswordForm');
 }
 public function updatePassword(Request $request)
 {
@@ -27,8 +27,8 @@ public function updatePassword(Request $request)
         return back()->withErrors(['old_password' => 'Password lama tidak cocok.']);
     }
 
-    $user->password = bcrypt($request->password); // Enkripsi password baru
-    $user->save(); // Simpan perubahan
+    $user->password = bcrypt($request->password);
+    $user->save();
 
     return redirect()->route('profile.show')->with('success', 'Password berhasil diubah!');
 }

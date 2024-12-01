@@ -4,17 +4,14 @@ import { computed, ref, onMounted } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import {
   mdiAccountMultiple,
-  mdiCartOutline,
   mdiChartTimelineVariant,
   mdiMonitorCellphone,
   mdiReload,
   mdiGithub,
   mdiChartPie,
   mdiSchool,
-  mdiBookAccount,
-  mdiBook,
-  mdiBookCross,
-  mdiBookAlphabet
+  mdiBookAlphabet,
+  mdiBookOpenPageVariant
 } from '@mdi/js'
 import * as chartConfig from '@/components/Charts/chart.config.js'
 import LineChart from '@/components/Charts/LineChart.vue'
@@ -40,6 +37,8 @@ const props = defineProps({
     user: { type: Array, default: () => [] },
     books: { type: Array, default: () => [] },
     prodi: { type: Array, default: () => [] },
+    fakultas: { type: Array, default: () => [] },
+    peminjaman: { type: Array, default: () => [] },
 });
 
 
@@ -88,6 +87,22 @@ onMounted(() => {
           :icon="mdiSchool"
           :number="prodi?.length ||0"
           label="Program Studi"
+        />
+        <CardBoxWidget
+          trend="overflow"
+          trend-type="alert"
+          color="text-blue-500"
+          :icon="mdiSchool"
+          :number="fakultas?.length ||0"
+          label="Fakultas"
+        />
+        <CardBoxWidget
+          trend="overflow"
+          trend-type="alert"
+          color="text-blue-500"
+          :icon="mdiBookOpenPageVariant"
+          :number="peminjaman?.length ||0"
+          label="Peminjaman"
         />
       </div>
 

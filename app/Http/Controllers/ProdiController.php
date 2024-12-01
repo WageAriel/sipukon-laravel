@@ -19,11 +19,11 @@ class ProdiController extends Controller
     public function index()
 {
     $prodis = Prodi::orderBy('nama_prodi')->get();
-    $fakultass = Fakultas::orderBy('nama_fakultas')->get();  // Ambil fakultas dengan ID
+    $fakultass = Fakultas::orderBy('nama_fakultas')->get(); 
 
     return Inertia::render('ProdiView', [
         'data' => $prodis,
-        'fakultass' => $fakultass  // Mengirimkan daftar fakultas beserta ID
+        'fakultass' => $fakultass
     ]);
 }
 
@@ -32,7 +32,7 @@ class ProdiController extends Controller
     {
         try {
             $validated = $request->validate([
-                'nama_fakultas' => 'required|exists:fakultas,nama_fakultas',  // Memastikan id fakultas valid
+                'nama_fakultas' => 'required|exists:fakultas,nama_fakultas', 
                 'nama_prodi' => 'required|string|max:255',
             ]);
 

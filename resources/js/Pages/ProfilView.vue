@@ -1,6 +1,6 @@
 <template>
-    <div class="fixed inset-0 flex items-center right-[150px] top-[-150px] justify-end z-50">
-        <div class="w-[375px] h-[450px] relative bg-white border-2 border-sky-500">
+    <div class="fixed inset-0 flex items-center right-[150px] top-[-100px] justify-end z-50">
+        <div class="w-[375px] h-[490px] relative bg-white border-2 border-sky-500">
             <div
                 class="h-[60px] pl-[13px] pr-[13px] py-2.5 bg-white rounded-tl-[20px] rounded-tr-[20px] flex items-center justify-between">
                 <UserCircleIcon class="mt-[10px] w-[50px] h-[50px] text-sky-500" />
@@ -53,19 +53,16 @@
                             <div class="text-[#131313] text-[15px] font-medium font-['Inter'] leading-normal">
                                 {{user.prodi}}</div>
                         </div>
-                        <div class="w-[335px] justify-between items-center inline-flex">
+                        <div v-for="(tenggatItem, index) in tenggat" :key="index"  class="w-[335px] justify-between items-center inline-flex">
                             <div class="justify-start items-center gap-2.5 flex">
                                 <div class="flex-col justify-center items-start inline-flex">
                                     <div class="text-[#131313] text-[15px] font-medium font-['Inter'] leading-normal">
                                         Tenggat</div>
                                 </div>
                             </div>
-                            <div v-if="tenggat" class="text-[#131313] text-[15px] font-medium font-['Inter'] leading-normal">
-    {{ tenggat }}
-</div>
-<div v-else class="text-[#131313] text-[15px] font-medium font-['Inter'] leading-normal">
-    Belum Ada Tenggat
-</div>
+                            <div class="text-[#131313] text-[15px] font-medium font-['Inter'] leading-normal">
+                                {{ tenggatItem }}
+                            </div>
                         </div>
                     </div>
                     <div class="w-[375px] border border-[#131313]/5"></div>
@@ -96,80 +93,39 @@
     </div>
 </template>
 
-<script>
-    import {
-        UserCircleIcon,
-        XMarkIcon
-    } from '@heroicons/vue/24/solid';
-    import {
-        ref,
-        computed
-    } from 'vue';
-    import {
-        usePage
-    } from '@inertiajs/vue3';
+<script setup>
+    import { UserCircleIcon, XMarkIcon } from '@heroicons/vue/24/solid';
+    import { ref, computed } from 'vue';
+    import { usePage } from '@inertiajs/vue3';
     import ChangePasswordForm from './ChangePasswordForm.vue'; // Import form ganti password
     import ConfirmDeleteModal from './ConfirmDeleteModal.vue'; // Import modal konfirmasi
-    import {
-        Inertia
-    } from '@inertiajs/inertia';
+    import { Inertia } from '@inertiajs/inertia';
 
-    export default {
-        components: {
-            UserCircleIcon,
-            XMarkIcon,
-            ChangePasswordForm, // Daftarkan komponen
-            ConfirmDeleteModal, // Daftarkan modal konfirmasi
-        },
-        setup() {
-            const {
-                props
-            } = usePage();
-            console.log('Props dari server:', props); // Debug data yang diterima
-            const user = ref(props.auth.user);
-            const showChangePassword = ref(false); // State untuk menampilkan form ganti password
-            const showDeleteModal = ref(false); // State untuk menampilkan modal konfirmasi
-            const peminjaman = ref(props.auth.peminjaman || []);
+    // Mengambil props dari server menggunakan usePage()
+    const { props } = usePage();
+    console.log('Props dari server:', props);
+
+    // Mendeklarasikan state dengan ref
+    const user = ref(props.auth.user);
+    const showChangePassword = ref(false); // State untuk menampilkan form ganti password
+    const showDeleteModal = ref(false); // State untuk menampilkan modal konfirmasi
+    const peminjaman = ref(props.auth.peminjaman || []);
     console.log('Data peminjaman diterima:', peminjaman.value);
 
+    // Menghitung tenggat dengan computed
     const tenggat = computed(() => {
         console.log('Data peminjaman di ProfileView:', peminjaman.value);
         if (peminjaman.value.length > 0) {
-            const activeLoan = peminjaman.value.find((loan) => loan.status_pengembalian === 'Dipinjam');
+            const activeLoan = peminjaman.value.filter((loan) => loan.status_pengembalian === 'Dipinjam');
             console.log('Active Loan:', activeLoan); // Log active loan
-            return activeLoan ? activeLoan.tanggal_pengembalian : 'Belum Ada Tenggat';
+            return activeLoan.length > 0
+                ? activeLoan.map((loan) => loan.tanggal_pengembalian)
+                : ['Belum Ada Tenggat'];
         }
         return 'Belum Ada Tenggat';
     });
-
-
-
-            const goToChangePassword = () => {
-                Inertia.visit('/change-password'); // Redirects to the change password route
-            };
-
-            const logout = () => {
-                Inertia.post(route('logout'), {
-                    onSuccess: () => {
-                        Inertia.reload({
-                            only: ['auth']
-                        });
-                    }
-                });
-            };
-
-            return {
-                user,
-                logout,
-                showChangePassword, // Return state
-                tenggat,
-                showDeleteModal, // Return state
-                goToChangePassword,
-            };
-        }
-    };
-
 </script>
+
 
 <style scoped>
     /* Tambahkan styling tambahan di sini jika diperlukan */

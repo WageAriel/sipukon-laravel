@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\Denda;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Psy\Command\WhereamiCommand;
 
 class PeminjamanController extends Controller
 {
@@ -35,30 +36,35 @@ class PeminjamanController extends Controller
         ]);
 
         $user = Auth::user();
-    if (!$user) {
-        return response()->json(['message' => 'User not logged in.'], 403);
-    }
+        if (!$user) {
+            return response()->json(['message' => 'User not logged in.'], 403);
+        }
 
 
-        // Cek apakah buku tersedia
         $book = Book::where('title', $request->judul)->first();
         if (!$book) {
             return response()->json(['message' => 'Buku tidak ditemukan.'], 404);
+        }
+
+        $status_buku = Book::where('title', $request->judul)
+                            ->where('status_buku', 'tersedia')
+                            ->count();
+        if (!$status_buku){
+            return response()->json(['message' => 'Buku tidak tersedia.'], 404);
         }
         
         $jumlahPeminjamanAktif = Peminjaman::where('nama_peminjam', $user->nama)
                                         ->where('status_pengembalian', 'Dipinjam')
                                         ->count();
 
-    if ($jumlahPeminjamanAktif >= 2) {
-        return response()->json([], 422);
-    }
+        if ($jumlahPeminjamanAktif >= 2) {
+            return response()->json([], 422);
+        }
 
-    $tanggalPeminjaman = Carbon::now();
-    $tanggalPengembalian = $tanggalPeminjaman->copy()->addDays(7);
-    $status = $request->metode_pengambilan === 'delivery' ? 'Disiapkan' : 'Dipinjam';
+        $tanggalPeminjaman = Carbon::now();
+        $tanggalPengembalian = $tanggalPeminjaman->copy()->addDays(7);
+        $status = $request->metode_pengambilan === 'delivery' ? 'Disiapkan' : 'Dipinjam';
 
-        // Buat peminjaman baru
         Peminjaman::create([
             'judul' => $request->judul,
             'nama_peminjam' => $user->nama,
@@ -68,18 +74,18 @@ class PeminjamanController extends Controller
             'alamat' => $request->alamat,
             'status_pengembalian' => $status,
         ]);
-
         $book->increment('banyaknya_dipinjam');
 
-        // Ambil pengguna yang sedang login
         $user = User::find(Auth::id());
         if ($user) {
-            // Ubah status menjadi "meminjam"
             $user->status = 'Meminjam';
             $user->save();
         }
 
-        // Kembalikan respon atau redirect sesuai kebutuhan
+        if($book){
+            $book->status_buku = 'tidak tersedia';
+            $book->save();
+        }
         return response()->json([
         'message' => 'Peminjaman berhasil dilakukan!'
     ], 200);
@@ -89,27 +95,18 @@ class PeminjamanController extends Controller
 {
     try {
         $peminjaman = Peminjaman::findOrFail($id);
-
-        // Ambil pengguna berdasarkan nama peminjam
         $user = User::where('nama', $peminjaman->nama_peminjam)->first();
 
         if ($user) {
-            // Hapus data peminjaman
             $peminjaman->delete();
-
-            // Cek jumlah peminjaman aktif setelah penghapusan
             $jumlahPeminjamanAktif = Peminjaman::where('nama_peminjam', $user->nama)
                                                 ->where('status_pengembalian', 'dipinjam')
                                                 ->count();
-
-            // Jika tidak ada lagi peminjaman aktif, perbarui status pengguna menjadi "tidak meminjam"
             if ($jumlahPeminjamanAktif === 0) {
                 $user->status = 'Tidak meminjam';
                 $user->save();
             }
         }
-
-        // Set flash message untuk notifikasi swal di frontend
         session()->flash('success', 'Peminjaman berhasil dihapus dan status pengguna diperbarui.');
 
         return redirect()->route('peminjamanData');
@@ -124,54 +121,46 @@ public function update(Request $request, $id)
         'status_pengembalian' => 'required|string',
     ]);
     
-    $user = Auth::user();
-
     $peminjaman = Peminjaman::findOrFail($id);
     $statusBaru = $request->status_pengembalian;
+    $peminjaman->status_pengembalian = $request->status_pengembalian;
+    $peminjaman->save();
 
-    // Check if the status is 'Dikembalikan'
     if ($statusBaru == 'Dikembalikan') {
         $tanggalSekarang = Carbon::now();
         $tanggalPengembalian = Carbon::parse($peminjaman->tanggal_pengembalian);
 
-        // If the return date is overdue
         if ($tanggalSekarang->gt($tanggalPengembalian)) {
-            // Calculate the overdue period in days
             $overdueWeeks = $tanggalSekarang->diffInWeeks($tanggalPengembalian, false);
             $denda = max(0, ceil(abs($overdueWeeks)) * 5000); // Assume 5000 per week
             
-            // Add denda to the Denda table
             Denda::create([
                 'nama_peminjam' => $peminjaman->nama_peminjam,
+                'judul_buku' => $peminjaman->judul,
                 'denda' => $denda,
                 'status_denda' => 'Belum Lunas'
             ]);
-
-            // Show a SweetAlert with the overdue fine
-            // return response()->json([
-            //     'message' => 'Peminjaman dikembalikan terlambat, denda: Rp ' . number_format($denda, 0, ',', '.'),
-            //     'denda' => $denda
-            // ], 422);
+            $peminjaman->status_pengembalian = 'Dikembalikan terlambat';
         }
-        
-
-    
-
+        $book = Book::where('title', $peminjaman->judul)->first();
+        if($book){
+            $book->status_buku = 'tersedia';
+            $book->save();
+        }        
     }
-    $peminjaman->status_pengembalian = $request->status_pengembalian;
     $peminjaman->save();
-    $peminjamanAktif = Peminjaman::where('nama_peminjam', $user->nama)
-                                    ->where('status_pengembalian', '!=', 'Dikembalikan')
-                                    ->exists();
 
-        // Jika tidak ada peminjaman aktif lainnya, update status user menjadi 'Tidak meminjam'
-        if (!$peminjamanAktif) {
+    $user = User::where('nama', $peminjaman->nama_peminjam)->first();
+    
+    if ($user) {
+        $peminjamanAktif = Peminjaman::where('nama_peminjam', $user->nama)
+            ->whereNotIn('status_pengembalian', ['Dikembalikan', 'Dikembalikan terlambat'])
+            ->count();
+        if ($peminjamanAktif == 0) {
             $user->status = 'Tidak meminjam';
             $user->save();
         }
-    
-
-    // return response()->json(['message' => 'Status berhasil diperbarui!'], 200);
+    }
 }
 
 

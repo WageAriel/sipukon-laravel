@@ -10,28 +10,6 @@ use Inertia\Inertia;
 
 class AuthController extends Controller
 {
-//     public function login(Request $request)
-//     {
-//         $credentials = $request->only('email', 'password');
-    
-//         // Validasi input
-//         $request->validate([
-//             'email' => 'required|email',
-//             'password' => 'required',
-//         ]);
-    
-//         // Cek kredensial
-//         $user = Auth::user();
-// if ($user && $user->role === 'admin') {
-//     return response()->json(['redirect' => route('dashboard')]);
-// } elseif ($user && $user->role === 'user') {
-//     return response()->json(['redirect' => route('landing')]);
-// }
-
-    
-//         return response()->json(['error' => 'Unauthorized'], 401);
-//     }
-
 public function login(Request $request)
 {
     // Validasi input

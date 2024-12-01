@@ -1,11 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed} from "vue";
 import { mdiDelete, mdiPencil } from "@mdi/js";
 import CardBox from "@/Components/CardBox.vue";
 import BaseButton from "@/Components/BaseButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 import EditModal from "@/Components/Denda/EditModal.vue";
+import FormField from "@/Components/FormField.vue";
+import FormControl from "@/Components/FormControl.vue";
 
 const props = defineProps({
     data: {
@@ -16,6 +18,42 @@ const props = defineProps({
 
 const showEditModal = ref(false);
 const selectedItem = ref(null);
+const searchQuery = ref("");
+const currentPage = ref(1);
+const itemsPerPage = 20;
+
+const filteredDendas = computed(() => {
+    let result = props.data || [];
+    if (searchQuery.value) {
+        const lowercasedQuery = searchQuery.value.toLowerCase();
+        result = result.filter(
+            (denda) =>
+                denda.nama_peminjam?.toLowerCase().includes(lowercasedQuery) ||
+                denda.status_denda?.toLowerCase().includes(lowercasedQuery)
+        );
+    }
+    return result;
+});
+
+const paginatedDendas = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return filteredDendas.value.slice(start, end);
+});
+
+const totalPages = computed(() => Math.ceil(filteredDendas.value.length / itemsPerPage));
+
+const prevPage = () => {
+    if (currentPage.value > 1) {
+        currentPage.value--;
+    }
+};
+
+const nextPage = () => {
+    if (currentPage.value < totalPages.value) {
+        currentPage.value++;
+    }
+};
 
 const form = useForm({});
 
@@ -66,9 +104,22 @@ const closeEditModal = () => {
 
 <template>
     <CardBox>
+        <div class="search-form flex items-center gap-2 mb-4 my-2">
+                <FormField>
+                    <FormControl
+                        v-model="searchQuery"
+                        placeholder="Search by name"
+                    />
+                </FormField>
+            </div>
         <table class="min-w-full divide-y mx-auto">
             <thead>
                 <tr>
+                    <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                        Judul Buku
+                    </th>
                     <th
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
@@ -91,8 +142,11 @@ const closeEditModal = () => {
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-dark divide-y">
-                <tr v-for="item in data" :key="item.id">
+            <tbody v-if="paginatedDendas.length > 0" class="bg-dark divide-y">
+                <tr v-for="item in paginatedDendas" :key="item.id">
+                    <td class="px-6 py-4 text-center">
+                        {{ item.judul_buku }}
+                    </td>
                     <td class="px-6 py-4">
                         {{ item.denda }}
                     </td>
@@ -102,12 +156,12 @@ const closeEditModal = () => {
                     <td class="px-6 py-4">
                         {{ item.status_denda}}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 flex justify-center items-center space-x-4">
                         <BaseButton
                             :icon="mdiPencil"
                             color="warning"
                             @click="editData(item)"
-                            class="mx-4"
+                           
                         />
                         <BaseButton
                             :icon="mdiDelete"
@@ -118,6 +172,23 @@ const closeEditModal = () => {
                 </tr>
             </tbody>
         </table>
+        <div class="flex justify-center mt-4">
+                <button
+                    @click="prevPage"
+                    :disabled="currentPage === 1"
+                    class="mx-1 px-3 py-1 bg-primary text-black rounded disabled:opacity-50"
+                >
+                    Prev
+                </button>
+                <span class="mx-2">{{ currentPage }} / {{ totalPages }}</span>
+                <button
+                    @click="nextPage"
+                    :disabled="currentPage === totalPages"
+                    class="mx-1 px-3 py-1 bg-primary text-black rounded disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
 
         <EditModal
             v-if="showEditModal"

@@ -56,9 +56,3 @@
 import HeaderNav from '@/Pages/HeaderNav.vue'
 import FooterView from '@/ComponentLanding/FooterView.vue'
 </script>
-
-<script>
-export default {
-    name: 'AboutPage'
-}
-</script>
