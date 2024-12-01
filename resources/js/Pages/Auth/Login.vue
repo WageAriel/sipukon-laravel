@@ -117,10 +117,15 @@ const handleEnterKey = (event) => {
               </button>
             </div>
             <div>
-              <Link href="/">
-              <img class="absolute top-[61.5px] left-[544px] w-[30px] h-[30px] z-30" src="@/image/image 5.png" /></Link>
+              <a href="/">
+                 <img class="absolute top-[61.5px] left-[544px] w-[30px] h-[30px] z-30" src="@/image/image 5.png" />
+              </a>
             </div>
-            <div class="absolute top-[67.5px] left-[410px] w-[121px] h-[19px] text-center text-black text-base font-bold capitalize font-['Poppins']">Hubungi kami</div>
+            <div class="absolute top-[67.5px] left-[410px] w-[121px] h-[19px] text-center text-black text-base font-bold capitalize font-['Poppins']">
+              <a href="https://wa.me/+6282134946260?text=OIIIIII SAMLEKUMMMM" target="_blank" class="text-black hover:text-green-500">
+                Hubungi kami
+              </a>
+            </div>
           </div>
         </div>
         <img class="w-[900px] h-[869px]" src="@/image/Perpus-UNS 2.png" />

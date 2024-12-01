@@ -23,7 +23,7 @@ const wrapperClass = computed(() => {
   const slotsLength = slots.default().length
 
   if (slotsLength > 1) {
-    base.push('grid grid-cols-1 gap-3')
+    base.push('grid grid-cols-1 gap-2')
   }
 
   if (slotsLength === 2) {
