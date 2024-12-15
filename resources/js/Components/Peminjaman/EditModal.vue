@@ -17,6 +17,7 @@ const emit = defineEmits(["close"]);
 const form = useForm({
     _method: "PUT", // Add this line to force PUT method
     status_pengembalian: "",
+    kondisi_buku: "",
 });
 
 watch(
@@ -24,6 +25,9 @@ watch(
     (newItem) => {
         if (newItem) {
             form.status_pengembalian = newItem.status_pengembalian;
+        }
+        if (newItem) {
+            form.kondisi_buku = newItem.kondisi_buku;
         }
     },
     { immediate: true }
@@ -114,8 +118,100 @@ const submit = async () => {
                 },
             });
         }
+    } 
+    if (form.kondisi_buku === 'Rusak'){
+        const denda = '50000';
+
+            const result = await Swal.fire({
+                title: "Peminjaman Telah Terlambat!",
+                text: `Denda yang dikenakan adalah Rp ${denda.toLocaleString()}. Apakah Anda ingin melanjutkan?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Lanjutkan",
+                cancelButtonText: "Batal"
+            });
+
+            if (result.isConfirmed) {
+                form.denda = denda; 
+                form.post(route("peminjaman.update", props.item.id), {
+                    preserveState: true,
+                    preserveScroll: true,
+                    forceFormData: true,
+                    onSuccess: () => {
+                        emit("close");
+                        Swal.fire({
+                            title: "Berhasil!",
+                            text: "Status pengembalian berhasil diperbarui dan denda telah dicatat.",
+                            icon: "success",
+                            confirmButtonColor: "#3085d6",
+                        }).then(() => {
+                            emit("close");
+                        });
+                    },
+                    onError: (errors) => {
+                        Swal.fire({
+                            title: "Gagal!",
+                            text: "Terjadi kesalahan saat memperbarui status.",
+                            icon: "error",
+                            confirmButtonColor: "#d33",
+                        });
+                        console.log(errors); 
+                    },
+                });
+            } else {
+                emit("close");
+            }
+            
+
+    }if (form.kondisi_buku === 'Hilang'){
+        const denda = '100000'; 
+
+            const result = await Swal.fire({
+                title: "Peminjaman Telah Terlambat!",
+                text: `Denda yang dikenakan adalah Rp ${denda.toLocaleString()}. Apakah Anda ingin melanjutkan?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Lanjutkan",
+                cancelButtonText: "Batal"
+            });
+
+            if (result.isConfirmed) {
+                form.denda = denda;
+                form.post(route("peminjaman.update", props.item.id), {
+                    preserveState: true,
+                    preserveScroll: true,
+                    forceFormData: true,
+                    onSuccess: () => {
+                        emit("close");
+                        Swal.fire({
+                            title: "Berhasil!",
+                            text: "Status pengembalian berhasil diperbarui dan denda telah dicatat.",
+                            icon: "success",
+                            confirmButtonColor: "#3085d6",
+                        }).then(() => {
+                            emit("close");
+                        });
+                    },
+                    onError: (errors) => {
+                        Swal.fire({
+                            title: "Gagal!",
+                            text: "Terjadi kesalahan saat memperbarui status.",
+                            icon: "error",
+                            confirmButtonColor: "#d33",
+                        });
+                        console.log(errors);
+                    },
+                });
+            } else {
+                emit("close");
+            }
+            
+
     } else {
-        // Jika status bukan "Dikembalikan", langsung update tanpa pengecekan denda
         form.post(route("peminjaman.update", props.item.id), {
             preserveState: true,
             preserveScroll: true,
@@ -183,6 +279,20 @@ const submit = async () => {
                                             Dikembalikan
                                         </option>
                                         <option value="Diantar">Diantar</option>
+                                    </select>
+                                </FormField>
+                            </div>
+                            <div class="mt-2">
+                                <FormField label="Kondisi Buku">
+                                    <select
+                                        v-model="form.kondisi_buku"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                    >
+                                        <option value="normal">Normal</option>
+                                        <option value="Rusak">
+                                            Rusak
+                                        </option>
+                                        <option value="Hilang">Hilang</option>
                                     </select>
                                 </FormField>
                             </div>

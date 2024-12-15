@@ -161,20 +161,22 @@ public function updateStatus(Request $request)
         return redirect()->route('user');
     }
 
-    public function destroy(User $user)
+    public function destroy($id)
 {
+    $user = User::find($id);
 
-    if (auth()->user()->id !== $user->id) {
+    if (auth()->user()->role !== 'admin') {
         return response()->json(['message' => 'Unauthorized'], 403);
     }
 
     // Hapus akun pengguna
-    $user->delete();
+    User::destroy($id);
+    return redirect()->route('user');
 
     // Logout pengguna setelah akun dihapus
-    auth()->logout();
+    // auth()->logout();
 
-    return redirect('/')->with('status', 'Akun berhasil dihapus.');
+    // return redirect('/')->with('status', 'Akun berhasil dihapus.');
 }
     
 }

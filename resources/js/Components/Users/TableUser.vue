@@ -95,6 +95,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useForm } from "@inertiajs/vue3";
 import { mdiDelete, mdiPencil } from "@mdi/js";
 import CardBox from "@/Components/CardBox.vue";
 import BaseButton from "@/Components/BaseButton.vue";
@@ -151,6 +152,8 @@ const nextPage = () => {
     }
 };
 
+const form = useForm({});
+
 const editData = (item) => {
     selectedItem.value = item;
     showEditModal.value = true;
@@ -172,29 +175,46 @@ const confirmDelete = (id) => {
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            deleteUser(id); // Pass the `id` here
+            form.delete(route("user.destroy", id), {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    Swal.fire(
+                        "Deleted!",
+                        "The item has been deleted.",
+                        "success"
+                    );
+                },
+                onError: (errors) => {
+                    Swal.fire(
+                        "Error!",
+                        "There was a problem deleting the file.",
+                        "error"
+                    );
+                    console.log(errors);
+                },
+            });
         }
     });
 };
 
 
 // Adjusted deleteUser function to handle deletion
-const deleteUser = (id) => {
-    axios
-        .delete(`/dashboard/user/${id}`) // Make sure {id} is appended to the URL
-        .then(() => {
-            Swal.fire("Deleted!", "The user has been deleted.", "success");
-            // Refresh or reload the data after deletion
-            location.reload(); // or use a method to fetch updated data
-        })
-        .catch((error) => {
-            console.error(error);
-            if (error.response && error.response.status === 401) {
-                Swal.fire("Unauthorized!", "You are not authorized to perform this action.", "error");
-            } else {
-                Swal.fire("Error!", "There was an error deleting the user.", "error");
-            }
-        });
-};
+// const deleteUser = (id) => {
+//     axios
+//         .delete(`/dashboard/user/${id}`)
+//         .then(() => {
+//             Swal.fire("Deleted!", "The user has been deleted.", "success");
+//             location.reload();
+//         })
+//         .catch((error) => {
+//             console.error(error);
+//             if (error.response && error.response.status === 401) {
+//                 Swal.fire("Unauthorized!", "You are not authorized to perform this action.", "error");
+//             } else {
+//                 Swal.fire("Error!", "There was an error deleting the user.", "error");
+//             }
+//         });
+// };
 
 </script>

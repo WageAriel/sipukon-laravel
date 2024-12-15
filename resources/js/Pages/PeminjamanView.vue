@@ -138,6 +138,7 @@ const confirmReturn = async (id) => {
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Metode</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Alamat</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Kondisi</th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                 </tr>
             </thead>
@@ -150,6 +151,7 @@ const confirmReturn = async (id) => {
                     <td class="px-6 py-4 text-center">{{ item.metode_pengambilan }}</td>
                     <td class="px-6 py-4 text-center">{{ item.alamat}}</td>
                     <td class="px-6 py-4 text-center">{{ item.status_pengembalian }}</td>
+                    <td class="px-6 py-4 text-center">{{ item.kondisi_buku }}</td>
                     <td class="px-6 py-4 text-center">
                         <BaseButton :icon="mdiPencil" color="warning"
                         @click="openModal(item)" />

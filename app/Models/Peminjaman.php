@@ -17,6 +17,7 @@ class Peminjaman extends Model
         'metode_pengambilan',
         'alamat',
         'status_pengembalian',
+        'kondisi_buku',
     ];
     
 }

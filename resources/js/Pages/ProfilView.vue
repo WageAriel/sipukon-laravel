@@ -122,7 +122,7 @@
                 ? activeLoan.map((loan) => loan.tanggal_pengembalian)
                 : ['Belum Ada Tenggat'];
         }
-        return 'Belum Ada Tenggat';
+        // return 'Belum Ada Tenggat';
     });
 </script>
 

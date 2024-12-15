@@ -22,8 +22,21 @@ const searchQuery = ref("");
 const currentPage = ref(1);
 const itemsPerPage = 20;
 
+const sortedProdis = computed(() => {
+    let hasil = props.data || [];
+    return hasil.sort((a, b) => {
+        if (a.nama_fakultas?.toLowerCase() < b.nama_fakultas?.toLowerCase()) {
+            return -1;
+        }
+        if (a.nama_fakultas?.toLowerCase() > b.nama_fakultas?.toLowerCase()) {
+            return 1;
+        }
+        return 0;
+    });
+});
+
 const filteredProdis = computed(() => {
-    let result = props.data || [];
+    let result = sortedProdis.value;
     if (searchQuery.value) {
         const lowercasedQuery = searchQuery.value.toLowerCase();
         result = result.filter(

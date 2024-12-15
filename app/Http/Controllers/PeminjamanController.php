@@ -119,11 +119,14 @@ public function update(Request $request, $id)
 {
     $request->validate([
         'status_pengembalian' => 'required|string',
+        'kondisi_buku' => 'required|string',
     ]);
     
     $peminjaman = Peminjaman::findOrFail($id);
     $statusBaru = $request->status_pengembalian;
+    $kondisiBaru = $request->kondisi_buku;
     $peminjaman->status_pengembalian = $request->status_pengembalian;
+    $peminjaman->kondisi_buku = $request->kondisi_buku;
     $peminjaman->save();
 
     if ($statusBaru == 'Dikembalikan') {
@@ -147,6 +150,26 @@ public function update(Request $request, $id)
             $book->status_buku = 'tersedia';
             $book->save();
         }        
+    }
+    if($kondisiBaru == 'Rusak'){
+        $denda = 50000;
+        Denda::create([
+            'nama_peminjam' => $peminjaman->nama_peminjam,
+            'judul_buku' => $peminjaman->judul,
+            'denda' => $denda,
+            'status_denda' => 'Belum Lunas'
+        ]);
+        $peminjaman->kondisi_buku = "Rusak";
+    }
+    if($kondisiBaru == 'Hilang'){
+        $denda = 100000;
+        Denda::create([
+            'nama_peminjam' => $peminjaman->nama_peminjam,
+            'judul_buku' => $peminjaman->judul,
+            'denda' => $denda,
+            'status_denda' => 'Belum Lunas'
+        ]);
+        $peminjaman->kondisi_buku = "Rusak";
     }
     $peminjaman->save();
 
