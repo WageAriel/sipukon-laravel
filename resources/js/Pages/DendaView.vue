@@ -26,12 +26,7 @@
 
         <Head title="form" />
         <SectionMain>
-            <SectionTitleLineWithButton :icon="mdiBallotOutline" title="Form Fakultas" main>
-            </SectionTitleLineWithButton>
-            <!-- <FormFakultas /> -->
-        </SectionMain>
-        <SectionMain>
-            <SectionTitleLineWithButton :icon="mdiTableBorder" title="Daftar Fakultas" main>
+            <SectionTitleLineWithButton :icon="mdiTableBorder" title="Daftar Denda" main>
             </SectionTitleLineWithButton>
             <CardBox>
                 <TableDenda :data="data"/>
