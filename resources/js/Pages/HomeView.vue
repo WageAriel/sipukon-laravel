@@ -13,19 +13,19 @@ import {
   mdiBookAlphabet,
   mdiBookOpenPageVariant
 } from '@mdi/js'
-import * as chartConfig from '@/components/Charts/chart.config.js'
-import LineChart from '@/components/Charts/LineChart.vue'
-import SectionMain from '@/components/SectionMain.vue'
-import CardBoxWidget from '@/components/CardBoxWidget.vue'
-import CardBox from '@/components/CardBox.vue'
-import TableSampleClients from '@/components/TableSampleClients.vue'
-import NotificationBar from '@/components/NotificationBar.vue'
-import BaseButton from '@/components/BaseButton.vue'
-import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
-import CardBoxClient from '@/components/CardBoxClient.vue'
-import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue'
-import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
-import SectionBannerStarOnGitHub from '@/components/SectionBannerStarOnGitHub.vue'
+import * as chartConfig from './components/Charts/chart.config.js'
+import LineChart from './components/Charts/LineChart.vue'
+import SectionMain from './components/SectionMain.vue'
+import CardBoxWidget from './components/CardBoxWidget.vue'
+import CardBox from './components/CardBox.vue'
+import TableSampleClients from './components/TableSampleClients.vue'
+import NotificationBar from './components/NotificationBar.vue'
+import BaseButton from './components/BaseButton.vue'
+import CardBoxTransaction from './components/CardBoxTransaction.vue'
+import CardBoxClient from './components/CardBoxClient.vue'
+import LayoutAuthenticated from './layouts/LayoutAuthenticated.vue'
+import SectionTitleLineWithButton from './components/SectionTitleLineWithButton.vue'
+import SectionBannerStarOnGitHub from './components/SectionBannerStarOnGitHub.vue'
 
 const chartData = ref(null)
 
