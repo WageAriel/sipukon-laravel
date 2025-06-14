@@ -13,8 +13,8 @@ import {
   mdiBookAlphabet,
   mdiBookOpenPageVariant
 } from '@mdi/js'
-import * as chartConfig from './components/Charts/chart.config.js'
-import LineChart from './components/Charts/LineChart.vue'
+import * as chartConfig from '../Components/Charts/chart.config.js'
+import LineChart from '../Components/Charts/LineChart.vue'
 import SectionMain from './components/SectionMain.vue'
 import CardBoxWidget from './components/CardBoxWidget.vue'
 import CardBox from './components/CardBox.vue'
