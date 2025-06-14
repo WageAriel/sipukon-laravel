@@ -1,17 +1,17 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { mdiAccount, mdiBookOpenPageVariant, mdiStar, mdiBarcode, mdiPublish} from '@mdi/js'
-import SectionMain from '@/components/SectionMain.vue'
+import SectionMain from '../Components/SectionMain.vue'
 import { useForm } from "@inertiajs/vue3";
-import CardBox from '@/components/CardBox.vue'
-import FormField from '@/components/FormField.vue'
-import FormControl from '@/components/FormControl.vue'
-import BaseDivider from '@/components/BaseDivider.vue'
-import BaseButton from '@/components/BaseButton.vue'
-import BaseButtons from '@/components/BaseButtons.vue'
-import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue'
-import FormFilePicker from "@/components/FormFilePicker.vue"
-import Tablebuku from "@/components/Buku/TableBuku.vue"
+import CardBox from '../Components/CardBox.vue'
+import FormField from '../Components/FormField.vue'
+import FormControl from '../Components/FormControl.vue'
+import BaseDivider from '../Components/BaseDivider.vue'
+import BaseButton from '../Components/BaseButton.vue'
+import BaseButtons from '../Components/BaseButtons.vue'
+import LayoutAuthenticated from '../Layouts/LayoutAuthenticated.vue'
+import FormFilePicker from "../Components/FormFilePicker.vue"
+import Tablebuku from "./components/Buku/TableBuku.vue"
 import Swal from "sweetalert2";
 
 
